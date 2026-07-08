@@ -40,6 +40,106 @@ refactor: true
   {% endfor %}
 {% endif %}
 
+{% assign total_posts = site.posts | where_exp: 'item', 'item.hidden != true' | size %}
+{% assign categories_count = site.categories | size %}
+{% assign tags_count = site.tags | size %}
+
+<section class="dev-home-hero" aria-label="Developer profile">
+  <div class="dev-home-hero__copy">
+    <p class="dev-home-eyebrow">Backend · Data Engineering · Automation</p>
+    <h1>운영 가능한 시스템을 오래 굴리는 개발자 노트</h1>
+    <p class="dev-home-lead">
+      Kafka, Flink, Kubernetes, Spring 기반의 데이터 파이프라인과 백엔드 시스템을 다루며
+      실제 운영에서 배운 판단을 기록합니다.
+    </p>
+
+    <div class="dev-home-actions" aria-label="Primary links">
+      <a href="{{ '/archives/' | relative_url }}" class="dev-home-action">
+        <i class="fas fa-clock-rotate-left" aria-hidden="true"></i>
+        <span>글 아카이브</span>
+      </a>
+      <a href="https://github.com/{{ site.github.username }}" class="dev-home-action" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-github" aria-hidden="true"></i>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="dev-home-terminal" aria-label="Profile summary">
+    <div class="dev-home-terminal__bar">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <pre><code>$ whoami
+jeongcm
+
+$ focus
+streaming-pipeline / lakehouse / backend
+
+$ currently_building
+job-search-agent-harness
+technical-writing-loop</code></pre>
+  </div>
+</section>
+
+<section class="dev-home-metrics" aria-label="Blog metrics">
+  <div class="dev-home-metric">
+    <span>{{ total_posts }}</span>
+    <p>published notes</p>
+  </div>
+  <div class="dev-home-metric">
+    <span>{{ categories_count }}</span>
+    <p>categories</p>
+  </div>
+  <div class="dev-home-metric">
+    <span>{{ tags_count }}</span>
+    <p>tags</p>
+  </div>
+</section>
+
+<section class="dev-home-grid" aria-label="Developer dashboard">
+  <div class="dev-home-panel dev-home-panel--wide">
+    <div class="dev-home-panel__header">
+      <div>
+        <p class="dev-home-kicker">GitHub Activity</p>
+        <h2>꾸준함을 남기는 잔디</h2>
+      </div>
+      <a href="https://github.com/{{ site.github.username }}" target="_blank" rel="noopener noreferrer" aria-label="Open GitHub profile">
+        <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+      </a>
+    </div>
+    <img
+      class="dev-home-ghchart"
+      src="https://ghchart.rshah.org/38bdf8/{{ site.github.username }}"
+      alt="{{ site.github.username }} GitHub contribution chart"
+      loading="lazy"
+    >
+  </div>
+
+  <div class="dev-home-panel">
+    <p class="dev-home-kicker">Now Writing</p>
+    <h2>다음 글감</h2>
+    <ul class="dev-home-list">
+      <li>이직 에이전트 하네스 설계</li>
+      <li>Flink와 Iceberg 운영 회고</li>
+      <li>GitOps로 데이터 플랫폼 다듬기</li>
+    </ul>
+  </div>
+</section>
+
+<section class="dev-home-stack" aria-label="Technology stack">
+  <span>Kafka</span>
+  <span>Flink</span>
+  <span>Iceberg</span>
+  <span>Spring Boot</span>
+  <span>Kubernetes</span>
+  <span>ArgoCD</span>
+  <span>Airflow</span>
+  <span>Python</span>
+  <span>Kotlin</span>
+</section>
+
 <div id="post-list" class="flex-grow-1 px-xl-1">
   {% for post in site.posts %}
     <article class="card-wrapper card">
