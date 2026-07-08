@@ -192,75 +192,37 @@
 }
 
 .dev-home-category-list {
-  display: grid;
-  gap: 0.55rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0;
   margin-top: 0.85rem;
-  padding: 0 !important;
-  list-style: none !important;
-  list-style-type: none !important;
 }
 
-.dev-home-category-list li {
-  display: block;
-  margin: 0;
-  padding: 0;
-  min-width: 0;
-  list-style: none !important;
-  list-style-type: none !important;
-}
-
-.dev-home-category-list li::before,
-.dev-home-category-list li::marker {
-  content: "" !important;
-  display: none !important;
-}
-
-.dev-home-category-card {
-  display: flex !important;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.65rem;
-  width: 100%;
-  min-height: 3.05rem;
-  padding: 0.62rem 0.72rem;
-  border: 1px solid var(--dev-line);
-  border-radius: 8px;
+.dev-home-category-link {
+  display: inline;
   color: var(--heading-color);
-  background: rgba(2, 6, 23, 0.2);
+  font-size: 1.02rem;
+  font-weight: 650;
+  line-height: 1.7;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
-.dev-home-category-card:hover {
-  color: #fff;
-  border-color: rgba(52, 211, 153, 0.42);
+.dev-home-category-link:hover {
+  color: var(--dev-green);
   text-decoration: none;
 }
 
-.dev-home-category-card__name {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: keep-all;
-  color: var(--heading-color);
-  font-size: 0.98rem;
-  font-weight: 650;
-  line-height: 1.28;
+.dev-home-category-link::after {
+  content: ",";
+  margin-right: 0.45rem;
+  color: var(--dev-text-soft);
 }
 
-.dev-home-category-card__count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 1.5rem;
-  flex: 0 0 auto;
-  padding: 0.14rem 0.52rem;
-  border: 1px solid rgba(52, 211, 153, 0.24);
-  border-radius: 999px;
-  color: var(--dev-green);
-  font-size: 0.72rem;
-  line-height: 1.2;
-  background: rgba(52, 211, 153, 0.08);
+.dev-home-category-link.is-last-visible::after {
+  content: "";
+  margin-right: 0;
 }
 
 .dev-home-category-pager {

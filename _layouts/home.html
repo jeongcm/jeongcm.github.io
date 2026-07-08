@@ -106,21 +106,16 @@ refactor: true
         <i class="fas fa-folder-open" aria-hidden="true"></i>
       </a>
     </div>
-    <ul class="dev-home-category-list" aria-label="Post categories" data-category-page-size="3">
+    <div class="dev-home-category-list" aria-label="Post categories" data-category-page-size="3">
       {% assign home_categories = site.categories | sort %}
       {% for category in home_categories %}
         {% assign category_name = category | first %}
         {% assign category_posts = category | last %}
         {% capture category_url %}/categories/{{ category_name | slugify | url_encode }}/{% endcapture %}
         {% assign category_page_index = forloop.index0 | divided_by: 3 %}
-        <li data-category-count="{{ category_posts | size }}" data-category-page="{{ category_page_index }}">
-          <a class="dev-home-category-card" href="{{ category_url | relative_url }}">
-            <span class="dev-home-category-card__name">{{ category_name }}</span>
-            <span class="dev-home-category-card__count">{{ category_posts | size }} posts</span>
-          </a>
-        </li>
+        <a class="dev-home-category-link" href="{{ category_url | relative_url }}" data-category-count="{{ category_posts | size }}" data-category-page="{{ category_page_index }}">{{ category_name }}</a>
       {% endfor %}
-    </ul>
+    </div>
     <div class="dev-home-category-pager" aria-label="Category pages">
       <button type="button" data-category-prev aria-label="Previous categories">
         <i class="fas fa-chevron-left" aria-hidden="true"></i>
@@ -230,9 +225,16 @@ refactor: true
     let currentPage = 0;
 
     const render = () => {
+      const visibleItems = [];
+
       items.forEach((item) => {
-        item.hidden = Number(item.dataset.categoryPage) !== currentPage;
+        const isVisible = Number(item.dataset.categoryPage) === currentPage;
+        item.hidden = !isVisible;
+        item.classList.toggle('is-last-visible', false);
+        if (isVisible) visibleItems.push(item);
       });
+
+      visibleItems.at(-1)?.classList.add('is-last-visible');
 
       prevButton.disabled = currentPage === 0;
       nextButton.disabled = currentPage === totalPages - 1;
@@ -254,7 +256,7 @@ refactor: true
 </script>
 
 <div id="post-list" class="flex-grow-1 px-xl-1">
-  {% for post in site.posts %}
+  {% for post in site.posts limit: 3 %}
     <article class="card-wrapper card">
       <a href="{{ post.url | relative_url }}" class="post-preview row g-0 flex-md-row-reverse">
         {% assign card_body_col = '12' %}
