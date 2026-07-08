@@ -1,6 +1,6 @@
 ---
 title: "이직 에이전트를 하네스로 설계하기 (1) — 제약에서 출발하기"
-date: 2026-07-08 21:00:00 +0900
+date: 2026-07-08 09:00:00 +0900
 categories: [building-the-agent]
 tags: [ai-agent, harness, claude, automation, job-search]
 ---
