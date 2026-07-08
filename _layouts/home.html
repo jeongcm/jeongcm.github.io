@@ -106,13 +106,14 @@ refactor: true
         <i class="fas fa-folder-open" aria-hidden="true"></i>
       </a>
     </div>
-    <ul class="dev-home-category-list" aria-label="Post categories">
+    <ul class="dev-home-category-list" aria-label="Post categories" data-category-page-size="3">
       {% assign home_categories = site.categories | sort %}
       {% for category in home_categories %}
         {% assign category_name = category | first %}
         {% assign category_posts = category | last %}
         {% capture category_url %}/categories/{{ category_name | slugify | url_encode }}/{% endcapture %}
-        <li>
+        {% assign category_page_index = forloop.index0 | divided_by: 3 %}
+        <li data-category-count="{{ category_posts | size }}" data-category-page="{{ category_page_index }}">
           <a class="dev-home-category-card" href="{{ category_url | relative_url }}">
             <span class="dev-home-category-card__name">{{ category_name }}</span>
             <span class="dev-home-category-card__count">{{ category_posts | size }} posts</span>
@@ -120,6 +121,15 @@ refactor: true
         </li>
       {% endfor %}
     </ul>
+    <div class="dev-home-category-pager" aria-label="Category pages">
+      <button type="button" data-category-prev aria-label="Previous categories">
+        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+      </button>
+      <span data-category-status>1 / 1</span>
+      <button type="button" data-category-next aria-label="Next categories">
+        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+      </button>
+    </div>
   </div>
 </section>
 
@@ -196,6 +206,50 @@ refactor: true
       quoteNode.textContent = quote.text;
       authorNode.textContent = quote.author;
     }
+  })();
+
+  (() => {
+    const list = document.querySelector('[data-category-page-size]');
+    if (!list) return;
+
+    const pageSize = Number(list.dataset.categoryPageSize) || 3;
+    const items = Array.from(list.querySelectorAll('[data-category-page]'))
+      .sort((a, b) => Number(b.dataset.categoryCount) - Number(a.dataset.categoryCount));
+    const prevButton = document.querySelector('[data-category-prev]');
+    const nextButton = document.querySelector('[data-category-next]');
+    const statusNode = document.querySelector('[data-category-status]');
+
+    if (!items.length || !prevButton || !nextButton || !statusNode) return;
+
+    items.forEach((item, index) => {
+      item.dataset.categoryPage = String(Math.floor(index / pageSize));
+      list.appendChild(item);
+    });
+
+    const totalPages = Math.max(...items.map((item) => Number(item.dataset.categoryPage))) + 1;
+    let currentPage = 0;
+
+    const render = () => {
+      items.forEach((item) => {
+        item.hidden = Number(item.dataset.categoryPage) !== currentPage;
+      });
+
+      prevButton.disabled = currentPage === 0;
+      nextButton.disabled = currentPage === totalPages - 1;
+      statusNode.textContent = `${currentPage + 1} / ${totalPages}`;
+    };
+
+    prevButton.addEventListener('click', () => {
+      currentPage = Math.max(0, currentPage - 1);
+      render();
+    });
+
+    nextButton.addEventListener('click', () => {
+      currentPage = Math.min(totalPages - 1, currentPage + 1);
+      render();
+    });
+
+    render();
   })();
 </script>
 
