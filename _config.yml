@@ -14,12 +14,12 @@ timezone: Asia/Seoul
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: jeongcm.dev # the main title
+title: 다희 남편의 개발일지 # the main title
 
 tagline: Backend · Data Engineering · Automation  # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
-  운영 가능한 백엔드와 데이터 플랫폼을 다루며 배운 것들을 기록하는 기술 블로그
+  백엔드, 데이터 엔지니어링, 자동화에 대해 기록하는 개발 블로그
 
 # Fill in the protocol & hostname for your site.
 # e.g. 'https://username.github.io', note that it does not end with a '/'.

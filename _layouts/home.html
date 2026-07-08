@@ -44,42 +44,21 @@ refactor: true
 {% assign categories_count = site.categories | size %}
 {% assign tags_count = site.tags | size %}
 
-<section class="dev-home-hero" aria-label="Developer profile">
-  <div class="dev-home-hero__copy">
-    <p class="dev-home-eyebrow">Backend · Data Engineering · Automation</p>
-    <h1>운영 가능한 시스템을 오래 굴리는 개발자 노트</h1>
-    <p class="dev-home-lead">
-      Kafka, Flink, Kubernetes, Spring 기반의 데이터 파이프라인과 백엔드 시스템을 다루며
-      실제 운영에서 배운 판단을 기록합니다.
-    </p>
-
-    <div class="dev-home-actions" aria-label="Primary links">
-      <a href="{{ '/archives/' | relative_url }}" class="dev-home-action">
-        <i class="fas fa-clock-rotate-left" aria-hidden="true"></i>
-        <span>글 아카이브</span>
-      </a>
-      <a href="https://github.com/{{ site.github.username }}" class="dev-home-action" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-github" aria-hidden="true"></i>
-        <span>GitHub</span>
-      </a>
-    </div>
-  </div>
-
-  <div class="dev-home-terminal" aria-label="Profile summary">
-    <div class="dev-home-terminal__bar">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <pre><code>$ whoami
-jeongcm
-
-$ focus
-streaming-pipeline / lakehouse / backend
-
-$ currently_building
-job-search-agent-harness
-technical-writing-loop</code></pre>
+<section class="dev-quote" aria-label="Daily developer quote">
+  <p class="dev-home-kicker">Daily Developer Quote</p>
+  <blockquote>
+    <p id="daily-dev-quote">단순함은 신뢰성의 전제다.</p>
+    <footer id="daily-dev-author">Edsger W. Dijkstra</footer>
+  </blockquote>
+  <div class="dev-quote__links" aria-label="Primary links">
+    <a href="{{ '/archives/' | relative_url }}">
+      <i class="fas fa-clock-rotate-left" aria-hidden="true"></i>
+      <span>글 아카이브</span>
+    </a>
+    <a href="https://github.com/{{ site.github.username }}" target="_blank" rel="noopener noreferrer">
+      <i class="fab fa-github" aria-hidden="true"></i>
+      <span>GitHub</span>
+    </a>
   </div>
 </section>
 
@@ -139,6 +118,34 @@ technical-writing-loop</code></pre>
   <span>Python</span>
   <span>Kotlin</span>
 </section>
+
+<script>
+  (() => {
+    const quotes = [
+      { text: '단순함은 신뢰성의 전제다.', author: 'Edsger W. Dijkstra' },
+      { text: '프로그램은 사람이 읽도록 쓰고, 기계가 실행하는 것은 그 다음이다.', author: 'Harold Abelson' },
+      { text: '말은 싸다. 코드를 보여줘라.', author: 'Linus Torvalds' },
+      { text: '먼저 동작하게 만들고, 그 다음 올바르게 만들고, 마지막에 빠르게 만들어라.', author: 'Kent Beck' },
+      { text: '좋은 코드는 좋은 산문처럼 읽힌다.', author: 'Grady Booch' },
+      { text: '복잡함은 죽인다. 단순하게 설명할 수 있어야 한다.', author: 'Brian Kernighan' },
+      { text: '디버깅은 코드를 쓰는 일보다 두 배 어렵다.', author: 'Brian Kernighan' },
+      { text: '측정하지 않으면 개선할 수 없다.', author: 'Peter Drucker' },
+      { text: '훌륭한 API는 설명보다 사용법이 먼저 보인다.', author: 'Joshua Bloch' },
+      { text: '자동화는 반복을 줄이고 판단할 시간을 돌려준다.', author: 'Martin Fowler' }
+    ];
+
+    const today = new Date();
+    const dayKey = Math.floor(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) / 86400000);
+    const quote = quotes[dayKey % quotes.length];
+    const quoteNode = document.getElementById('daily-dev-quote');
+    const authorNode = document.getElementById('daily-dev-author');
+
+    if (quoteNode && authorNode) {
+      quoteNode.textContent = quote.text;
+      authorNode.textContent = quote.author;
+    }
+  })();
+</script>
 
 <div id="post-list" class="flex-grow-1 px-xl-1">
   {% for post in site.posts %}
