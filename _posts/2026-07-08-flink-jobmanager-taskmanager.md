@@ -1,6 +1,6 @@
 ---
 title: "Apache Flink는 어떻게 일을 나눠서 실행할까: JobManager와 TaskManager"
-date: 2026-07-08 16:20:00 +0900
+date: 2026-07-08 16:00:00 +0900
 categories: [technical-knowledge, data-engineering]
 tags: [apache-flink, streaming, jobmanager, taskmanager, distributed-systems]
 ---
