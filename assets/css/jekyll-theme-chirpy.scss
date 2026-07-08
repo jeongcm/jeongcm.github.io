@@ -195,23 +195,34 @@
   display: grid;
   gap: 0.55rem;
   margin-top: 0.85rem;
-  padding: 0;
-  list-style: none;
+  padding: 0 !important;
+  list-style: none !important;
+  list-style-type: none !important;
 }
 
 .dev-home-category-list li {
   display: block;
+  margin: 0;
+  padding: 0;
   min-width: 0;
+  list-style: none !important;
+  list-style-type: none !important;
+}
+
+.dev-home-category-list li::before,
+.dev-home-category-list li::marker {
+  content: "" !important;
+  display: none !important;
 }
 
 .dev-home-category-card {
   display: flex !important;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.38rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
   width: 100%;
-  min-height: 3.35rem;
-  padding: 0.68rem 0.75rem;
+  min-height: 3.05rem;
+  padding: 0.62rem 0.72rem;
   border: 1px solid var(--dev-line);
   border-radius: 8px;
   color: var(--heading-color);
@@ -231,15 +242,19 @@
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: keep-all;
-  line-height: 1.35;
+  color: var(--heading-color);
+  font-size: 0.98rem;
+  font-weight: 650;
+  line-height: 1.28;
 }
 
 .dev-home-category-card__count {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 1.4rem;
-  padding: 0.12rem 0.45rem;
+  min-height: 1.5rem;
+  flex: 0 0 auto;
+  padding: 0.14rem 0.52rem;
   border: 1px solid rgba(52, 211, 153, 0.24);
   border-radius: 999px;
   color: var(--dev-green);
@@ -251,21 +266,22 @@
 .dev-home-category-pager {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-top: 0.75rem;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: 0.9rem;
 }
 
 .dev-home-category-pager button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.15rem;
+  height: 2.15rem;
   border: 1px solid var(--dev-line);
-  border-radius: 8px;
+  border-radius: 999px;
   color: var(--dev-accent);
-  background: rgba(2, 6, 23, 0.2);
+  background: rgba(15, 23, 42, 0.78);
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.04);
 }
 
 .dev-home-category-pager button:hover:not(:disabled) {
@@ -279,9 +295,18 @@
 }
 
 .dev-home-category-pager span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.15rem;
+  height: 2.15rem;
+  padding: 0 0.6rem;
+  border: 1px solid var(--dev-line);
+  border-radius: 999px;
   color: var(--dev-text-soft);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
+  background: rgba(2, 6, 23, 0.18);
 }
 
 .dev-home-docs {

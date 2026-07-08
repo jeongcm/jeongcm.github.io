@@ -236,7 +236,7 @@ refactor: true
 
       prevButton.disabled = currentPage === 0;
       nextButton.disabled = currentPage === totalPages - 1;
-      statusNode.textContent = `${currentPage + 1} / ${totalPages}`;
+      statusNode.textContent = `${String(currentPage + 1).padStart(2, '0')} / ${String(totalPages).padStart(2, '0')}`;
     };
 
     prevButton.addEventListener('click', () => {
