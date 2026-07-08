@@ -119,7 +119,7 @@
 .dev-home-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr);
-  align-items: start;
+  align-items: stretch;
   gap: 0.75rem;
   margin: 1rem 0;
 }
@@ -127,6 +127,21 @@
 .dev-home-panel {
   padding: 1rem;
   min-width: 0;
+}
+
+.dev-home-activity-panel,
+.dev-home-category-panel {
+  min-height: 17rem;
+}
+
+.dev-home-activity-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.dev-home-category-panel {
+  display: flex;
+  flex-direction: column;
 }
 
 .dev-home-panel__header {
@@ -158,7 +173,7 @@
 .dev-home-ghchart {
   display: block;
   width: 100%;
-  min-height: 112px;
+  min-height: 10.75rem;
   padding: 0.75rem;
   border-radius: 8px;
   background: #f8fafc;
@@ -197,6 +212,8 @@
   align-items: baseline;
   gap: 0.15rem 0;
   margin-top: 0.85rem;
+  flex: 1;
+  align-content: center;
 }
 
 .dev-home-category-link {

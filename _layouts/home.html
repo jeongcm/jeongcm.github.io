@@ -78,7 +78,7 @@ refactor: true
 </section>
 
 <section class="dev-home-grid" aria-label="Developer dashboard">
-  <div class="dev-home-panel dev-home-panel--wide">
+  <div class="dev-home-panel dev-home-panel--wide dev-home-activity-panel">
     <div class="dev-home-panel__header">
       <div>
         <p class="dev-home-kicker">GitHub Activity</p>
@@ -96,7 +96,7 @@ refactor: true
     >
   </div>
 
-  <div class="dev-home-panel">
+  <div class="dev-home-panel dev-home-category-panel">
     <div class="dev-home-panel__header">
       <div>
         <p class="dev-home-kicker">Categories</p>
@@ -256,7 +256,7 @@ refactor: true
 </script>
 
 <div id="post-list" class="flex-grow-1 px-xl-1">
-  {% for post in posts %}
+  {% for post in site.posts limit: 3 %}
     <article class="card-wrapper card">
       <a href="{{ post.url | relative_url }}" class="post-preview row g-0 flex-md-row-reverse">
         {% assign card_body_col = '12' %}
@@ -324,7 +324,3 @@ refactor: true
   {% endfor %}
 </div>
 <!-- #post-list -->
-
-{% if paginator.total_pages > 1 %}
-  {% include post-paginator.html %}
-{% endif %}
