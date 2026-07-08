@@ -15,7 +15,7 @@ TaskManager는 워커다. 실제 데이터 레코드를 읽고, 연산자를 실
 
 여기서 중요한 개념이 **operator chain**이다. Flink는 모든 연산자를 무조건 별도 스레드로 쪼개지 않는다. 가능한 경우 여러 연산자를 하나의 task로 묶어서 실행한다. 예를 들어 `map -> filter`처럼 shuffle이 필요 없는 연산은 한 task 안에서 이어 붙일 수 있다. 이렇게 하면 스레드 간 전달, 버퍼링, 네트워크 비용이 줄고 지연시간도 낮아진다. 반대로 `keyBy`처럼 데이터를 key 기준으로 재분배해야 하는 지점에서는 네트워크 shuffle이 생기고, 그 뒤의 연산자는 새로운 병렬 subtask 묶음으로 실행된다.
 
-내 작업에서는 이 shuffle 지점이 설계의 경계가 된다. 주문 아이템 중복 제거는 `(partner_idx, order_id, order_item_id, client_type, order_at)` 기준으로 key를 잡고, 삭제 이벤트 병합은 `(partner_idx, order_id, order_item_id)` 기준으로 다시 key를 잡는다. 주문 금액 보정은 `(partner_idx, order_id, client_type)` 단위의 MapState를 사용한다. 즉 같은 주문 파이프라인 안에서도 "어떤 비즈니스 충돌을 해결하느냐"에 따라 key의 단위가 달라지고, 그때마다 Flink는 데이터를 다시 나눠 TaskManager의 subtask로 보낸다.
+내 작업에서는 이 shuffle 지점이 설계의 경계가 된다. 주문 아이템 중복 제거는 특정 키 기준으로 key를 잡고, 삭제 이벤트 병합은 삭제키 기준으로 다시 key를 잡는다. 주문 금액 보정 역시 특정 키 단위의 MapState를 사용한다. 즉 같은 주문 파이프라인 안에서도 "어떤 비즈니스 충돌을 해결하느냐"에 따라 key의 단위가 달라지고, 그때마다 Flink는 데이터를 다시 나눠 TaskManager의 subtask로 보낸다.
 
 Flink 잡을 그림으로 상상하면 더 쉽다. 사용자가 작성한 코드는 논리적인 dataflow가 되고, Flink는 이를 병렬 실행 그래프로 바꾼다. JobManager는 이 그래프를 보고 "어떤 subtask를 어느 TaskManager slot에 올릴지"를 정한다. TaskManager들은 각자 맡은 subtask를 실행하며 데이터 스트림을 주고받는다. checkpoint barrier가 흐르면 JobManager가 전체 체크포인트 완료 여부를 조율하고, TaskManager들은 각자의 상태를 state backend에 스냅샷으로 남긴다.
 
