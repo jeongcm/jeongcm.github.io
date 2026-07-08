@@ -106,18 +106,20 @@ refactor: true
         <i class="fas fa-folder-open" aria-hidden="true"></i>
       </a>
     </div>
-    <div class="dev-home-category-list" aria-label="Post categories">
+    <ul class="dev-home-category-list" aria-label="Post categories">
       {% assign home_categories = site.categories | sort %}
       {% for category in home_categories %}
         {% assign category_name = category | first %}
         {% assign category_posts = category | last %}
         {% capture category_url %}/categories/{{ category_name | slugify | url_encode }}/{% endcapture %}
-        <a href="{{ category_url | relative_url }}">
-          <span>{{ category_name }}</span>
-          <em>{{ category_posts | size }}</em>
-        </a>
+        <li>
+          <a class="dev-home-category-card" href="{{ category_url | relative_url }}">
+            <span class="dev-home-category-card__name">{{ category_name }}</span>
+            <span class="dev-home-category-card__count">{{ category_posts | size }} posts</span>
+          </a>
+        </li>
       {% endfor %}
-    </div>
+    </ul>
   </div>
 </section>
 
@@ -130,39 +132,39 @@ refactor: true
     <i class="fas fa-book-open" aria-hidden="true"></i>
   </div>
   <div class="dev-home-doc-grid">
-    <a href="https://kafka.apache.org/documentation/" target="_blank" rel="noopener noreferrer">
+    <a class="dev-home-doc-card" href="https://kafka.apache.org/documentation/" target="_blank" rel="noopener noreferrer">
       <strong>Kafka</strong>
       <span>event streaming</span>
     </a>
-    <a href="https://nightlies.apache.org/flink/flink-docs-release-2.1/" target="_blank" rel="noopener noreferrer">
+    <a class="dev-home-doc-card" href="https://nightlies.apache.org/flink/flink-docs-release-2.1/" target="_blank" rel="noopener noreferrer">
       <strong>Flink</strong>
       <span>stateful streaming</span>
     </a>
-    <a href="https://iceberg.apache.org/docs/latest/" target="_blank" rel="noopener noreferrer">
+    <a class="dev-home-doc-card" href="https://iceberg.apache.org/docs/latest/" target="_blank" rel="noopener noreferrer">
       <strong>Iceberg</strong>
       <span>lakehouse table</span>
     </a>
-    <a href="https://docs.spring.io/spring-boot/index.html" target="_blank" rel="noopener noreferrer">
+    <a class="dev-home-doc-card" href="https://docs.spring.io/spring-boot/index.html" target="_blank" rel="noopener noreferrer">
       <strong>Spring Boot</strong>
       <span>backend runtime</span>
     </a>
-    <a href="https://kubernetes.io/docs/" target="_blank" rel="noopener noreferrer">
+    <a class="dev-home-doc-card" href="https://kubernetes.io/docs/" target="_blank" rel="noopener noreferrer">
       <strong>Kubernetes</strong>
       <span>container platform</span>
     </a>
-    <a href="https://argo-cd.readthedocs.io/en/stable/" target="_blank" rel="noopener noreferrer">
+    <a class="dev-home-doc-card" href="https://argo-cd.readthedocs.io/en/stable/" target="_blank" rel="noopener noreferrer">
       <strong>ArgoCD</strong>
       <span>GitOps delivery</span>
     </a>
-    <a href="https://airflow.apache.org/docs/" target="_blank" rel="noopener noreferrer">
+    <a class="dev-home-doc-card" href="https://airflow.apache.org/docs/" target="_blank" rel="noopener noreferrer">
       <strong>Airflow</strong>
       <span>workflow scheduler</span>
     </a>
-    <a href="https://docs.python.org/3/" target="_blank" rel="noopener noreferrer">
+    <a class="dev-home-doc-card" href="https://docs.python.org/3/" target="_blank" rel="noopener noreferrer">
       <strong>Python</strong>
       <span>data tooling</span>
     </a>
-    <a href="https://kotlinlang.org/docs/home.html" target="_blank" rel="noopener noreferrer">
+    <a class="dev-home-doc-card" href="https://kotlinlang.org/docs/home.html" target="_blank" rel="noopener noreferrer">
       <strong>Kotlin</strong>
       <span>JVM language</span>
     </a>
