@@ -9,7 +9,7 @@ tags: [apache-flink, aggregation, event-time, stateful-streaming, checkpoint]
 
 내가 한 주문 스트리밍 작업에서 Flink를 쓴 이유도 결국 이 세 가지와 맞닿아 있다. 이 파이프라인은 주문 이벤트를 단순히 받아서 저장하는 작업이 아니었다. Kafka 재처리로 같은 주문 아이템이 다시 들어올 수 있고, 삭제 이벤트가 별도 토픽으로 늦게 올 수 있고, API/NFT 주문은 아이템별 금액을 다시 합산해 같은 주문의 모든 row에 반영해야 했다. 이런 문제는 "한 번 읽고 한 번 쓰는 ETL"이 아니라, key별 상태를 오래 들고 판단해야 하는 스트리밍 애플리케이션에 가깝다.
 
-첫 번째 축은 상태다. 스트리밍 집계는 과거 값을 기억해야 한다. `user_id`별 카운트를 세려면 각 user의 현재 카운트가 필요하고, 10분 window의 합계를 내려면 window별 중간 결과가 필요하다. Flink는 이런 값을 operator state 또는 keyed state로 관리한다. 특히 `keyBy` 이후의 keyed state는 key별로 분산되어 TaskManager들에 나뉘어 저장된다. 한 머신이 모든 user의 상태를 들고 있는 것이 아니라, key space가 병렬 subtask에 나뉘어 올라간다.
+첫 번째 축은 상태다. 스트리밍 집계는 과거 값을 기억해야 한다. 유저별 카운트를 세려면 각 유저의 현재 카운트가 필요하고, 10분 window의 합계를 내려면 window별 중간 결과가 필요하다. Flink는 이런 값을 operator state 또는 keyed state로 관리한다. 특히 `keyBy` 이후의 keyed state는 key별로 분산되어 TaskManager들에 나뉘어 저장된다. 한 머신이 모든 user의 상태를 들고 있는 것이 아니라, key space가 병렬 subtask에 나뉘어 올라간다.
 
 이 구조는 집계에서 큰 장점이 된다. key별 상태를 로컬에서 갱신할 수 있기 때문에 매 이벤트마다 외부 DB를 조회하지 않아도 된다. 상태가 메모리나 RocksDB 같은 state backend에 있고, Flink 연산자가 그 상태를 직접 읽고 갱신한다. 그래서 실시간 대시보드나 알림처럼 낮은 지연시간이 중요한 집계에 잘 맞는다. 물론 상태가 커질수록 checkpoint 시간, RocksDB I/O, compaction, 메모리 설정을 함께 봐야 한다.
 
