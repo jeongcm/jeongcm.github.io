@@ -80,7 +80,10 @@ refactor: true
         {% assign category_posts = category | last %}
         {% capture category_url %}/categories/{{ category_name | slugify | url_encode }}/{% endcapture %}
         {% assign category_page_index = forloop.index0 | divided_by: 3 %}
-        <a class="dev-home-category-link" href="{{ category_url | relative_url }}" data-category-count="{{ category_posts | size }}" data-category-page="{{ category_page_index }}">{{ category_name }}</a>
+        <a class="dev-home-category-link" href="{{ category_url | relative_url }}" data-category-count="{{ category_posts | size }}" data-category-page="{{ category_page_index }}">
+          <span class="dev-home-category-name">{{ category_name }}</span>
+          <span class="dev-home-category-count">{{ category_posts | size }}</span>
+        </a>
       {% endfor %}
     </div>
     <div class="dev-home-category-pager" aria-label="Category pages">

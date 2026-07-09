@@ -209,37 +209,56 @@
 .dev-home-category-list {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.15rem 0;
+  align-items: center;
+  align-content: flex-start;
+  gap: 0.5rem;
   margin-top: 0.85rem;
   flex: 1;
-  align-content: center;
 }
 
 .dev-home-category-link {
-  display: inline;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.32rem 0.7rem;
+  border: 1px solid var(--dev-line);
+  border-radius: 999px;
   color: var(--heading-color);
-  font-size: 1.02rem;
-  font-weight: 650;
-  line-height: 1.7;
+  background: rgba(2, 6, 23, 0.22);
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.4;
   word-break: keep-all;
   overflow-wrap: anywhere;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
 .dev-home-category-link:hover {
-  color: var(--dev-green);
+  color: #fff;
+  border-color: rgba(56, 189, 248, 0.5);
+  background: rgba(56, 189, 248, 0.12);
   text-decoration: none;
 }
 
-.dev-home-category-link::after {
-  content: ",";
-  margin-right: 0.45rem;
-  color: var(--dev-text-soft);
+.dev-home-category-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  color: var(--dev-accent);
+  background: rgba(56, 189, 248, 0.12);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1;
 }
 
-.dev-home-category-link.is-last-visible::after {
-  content: "";
-  margin-right: 0;
+.dev-home-category-link:hover .dev-home-category-count {
+  color: #fff;
+  background: rgba(56, 189, 248, 0.28);
 }
 
 .dev-home-category-pager {
