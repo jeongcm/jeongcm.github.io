@@ -5,42 +5,9 @@ refactor: true
 
 {% include lang.html %}
 
-{% assign pinned = site.posts | where: 'pin', 'true' %}
-{% assign default = site.posts | where_exp: 'item', 'item.pin != true and item.hidden != true' %}
-
-{% assign posts = '' | split: '' %}
-
-<!-- Get pinned posts -->
-
-{% assign offset = paginator.page | minus: 1 | times: paginator.per_page %}
-{% assign pinned_num = pinned.size | minus: offset %}
-
-{% if pinned_num > 0 %}
-  {% for i in (offset..pinned.size) limit: pinned_num %}
-    {% assign posts = posts | push: pinned[i] %}
-  {% endfor %}
-{% else %}
-  {% assign pinned_num = 0 %}
-{% endif %}
-
-<!-- Get default posts -->
-
-{% assign default_beg = offset | minus: pinned.size %}
-
-{% if default_beg < 0 %}
-  {% assign default_beg = 0 %}
-{% endif %}
-
-{% assign default_num = paginator.posts | size | minus: pinned_num %}
-{% assign default_end = default_beg | plus: default_num | minus: 1 %}
-
-{% if default_num > 0 %}
-  {% for i in (default_beg..default_end) %}
-    {% assign posts = posts | push: default[i] %}
-  {% endfor %}
-{% endif %}
-
-{% assign total_posts = site.posts | where_exp: 'item', 'item.hidden != true' | size %}
+{% assign visible_posts = site.posts | where_exp: 'item', 'item.hidden != true' %}
+{% assign latest_posts = visible_posts | sort: 'date' | reverse | slice: 0, 3 %}
+{% assign total_posts = visible_posts | size %}
 {% assign categories_count = site.categories | size %}
 {% assign tags_count = site.tags | size %}
 
@@ -256,7 +223,7 @@ refactor: true
 </script>
 
 <div id="post-list" class="flex-grow-1 px-xl-1">
-  {% for post in site.posts limit: 3 %}
+  {% for post in latest_posts %}
     <article class="card-wrapper card">
       <a href="{{ post.url | relative_url }}" class="post-preview row g-0 flex-md-row-reverse">
         {% assign card_body_col = '12' %}
