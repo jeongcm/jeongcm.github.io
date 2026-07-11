@@ -743,9 +743,9 @@ html[data-mode='dark'] .post-cat-chip {
   }
 }
 
-/* 홈 카드: 칩을 제목 위로 올렸으니 메타의 카테고리는 숨김(중복 방지) */
-#post-list .card .post-meta .home-hide-cat {
-  display: none;
+/* 홈 카드: 칩을 제목 위로 올렸으니 하단 메타의 날짜/카테고리는 숨김(중복 방지) */
+#post-list .card .card-body .post-meta > div.home-hide-cat {
+  display: none !important;
 }
 
 /* [#1] Daily Quote 카드 — 종이 카드 승격 */
