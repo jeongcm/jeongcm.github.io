@@ -7,22 +7,289 @@
 {%- endif -%}
 ';
 
-/* append your custom style below */
+/* ============================================================
+   다희 남편의 개발일지 — 우드톤 · 식물 · 힐링 커스텀 (시안 3a)
+   웹폰트는 _includes/metadata-hook.html 에서 로드합니다.
+   ============================================================ */
 
-:root {
-  --dev-accent: #38bdf8;
-  --dev-accent-strong: #22d3ee;
-  --dev-panel: rgba(15, 23, 42, 0.72);
-  --dev-line: rgba(148, 163, 184, 0.18);
-  --dev-text-soft: #94a3b8;
-  --dev-green: #34d399;
+/* ---------- 폰트 ---------- */
+html {
+  font-size: 16px;
 }
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+h1, h2, h3, h4,
+.post-title,
+#post-list .card-title,
+.site-title {
+  font-family: 'Noto Serif KR', 'Source Serif 4', serif !important;
+}
+
+/* ---------- 라이트 모드 팔레트 (우드 & 세이지) ---------- */
+html:not([data-mode]),
+html[data-mode='light'] {
+  /* Framework */
+  --body-bg: #f3efe4;
+  --main-bg: #faf8f2;
+  --main-border-color: #e3dcc9;
+  --mask-bg: #c9c0ac;
+
+  /* Common */
+  --text-color: #3a3226;
+  --text-muted-color: #8a8072;
+  --heading-color: #2b2620;
+  --blockquote-border-color: #6b7a5e;
+  --blockquote-text-color: #5b5344;
+  --link-color: #5e6e50;
+  --link-underline-color: #c9cdae;
+  --button-bg: #faf8f2;
+  --btn-border-color: #e3dcc9;
+  --btn-backtotop-color: #6b6255;
+  --btn-backtotop-border-color: #e3dcc9;
+  --checkbox-color: #c9c0ac;
+  --checkbox-checked-color: #6b7a5e;
+
+  /* Sidebar → 다크 우드 패널 */
+  --sidebar-bg: linear-gradient(180deg, #332b20 0%, #2c251b 100%);
+  --sidebar-border-color: #2c251b;
+  --sidebar-muted-color: #c9c0ac;
+  --sidebar-active-color: #f3efe4;
+  --site-title-color: #f3efe4;
+  --site-subtitle-color: #a89b7f;
+  --sidebar-hover-bg: #4a4030;
+  --sidebar-btn-bg: #4a4030;
+  --sidebar-btn-color: #c9c0ac;
+  --avatar-border-color: #6b7a5e;
+  --nav-cursor-color: #9fb284;
+
+  /* Topbar */
+  --topbar-bg: rgba(250, 248, 242, 0.8);
+  --topbar-text-color: #5b5344;
+  --search-border-color: #e3dcc9;
+  --search-icon-color: #a89b7f;
+  --input-focus-border-color: #6b7a5e;
+
+  /* Home post list */
+  --card-bg: #faf8f2;
+  --card-hovered-bg: #f3efe4;
+  --card-shadow: rgba(58, 50, 38, 0.08) 0 4px 12px 0,
+    rgba(58, 50, 38, 0.05) 0 0 0 1px;
+  --card-border-color: #e9e3d2;
+  --label-color: #6b6255;
+
+  /* Post */
+  --toc-highlight: #5e6e50;
+  --tag-border: #d5ceba;
+  --tag-shadow: #ece7d8;
+  --prompt-tip-bg: rgba(159, 178, 132, 0.2);
+  --prompt-tip-icon-color: #6b7a5e;
+  --categories-border: rgba(58, 50, 38, 0.12);
+  --categories-hover-bg: #ece7d8;
+  --btn-share-hover-color: #5e6e50;
+
+  /* Tags / footer */
+  --tag-bg: #dde0c9;
+  --footer-text-color: #8a8072;
+  --footer-link: #5b5344;
+
+  /* Home dashboard (dev-*) → 우드 & 세이지 */
+  --dev-accent: #5e6e50;
+  --dev-accent-strong: #4b5238;
+  --dev-green: #6b7a5e;
+  --dev-panel: #fffdf8;
+  --dev-inner-bg: #f6f2e7;
+  --dev-line: #e3dcc9;
+  --dev-text-soft: #8a8072;
+  --dev-accent-soft: rgba(159, 178, 132, 0.18);
+  --dev-accent-soft-strong: rgba(159, 178, 132, 0.32);
+  --dev-hover-text: #2b2620;
+  --dev-ghchart-bg: #faf8f2;
+  --dev-panel-shadow: rgba(58, 50, 38, 0.06) 0 3px 10px 0;
+}
+
+/* ---------- 다크 모드도 우드톤으로 ---------- */
+html[data-mode='dark'] {
+  --body-bg: #211c14;
+  --main-bg: #2c251b;
+  --main-border-color: #4a4030;
+  --text-color: #ded6c1;
+  --text-muted-color: #a89b7f;
+  --heading-color: #f3efe4;
+  --link-color: #9fb284;
+  --link-underline-color: #55603f;
+  --blockquote-border-color: #6b7a5e;
+  --blockquote-text-color: #c9c0ac;
+  --sidebar-bg: linear-gradient(180deg, #1b1710 0%, #16130d 100%);
+  --sidebar-muted-color: #a89b7f;
+  --sidebar-active-color: #f3efe4;
+  --site-title-color: #f3efe4;
+  --site-subtitle-color: #a89b7f;
+  --sidebar-hover-bg: #3a3226;
+  --avatar-border-color: #6b7a5e;
+  --card-bg: #332b20;
+  --card-hovered-bg: #3a3226;
+  --card-border-color: #4a4030;
+  --topbar-bg: rgba(44, 37, 27, 0.8);
+  --topbar-text-color: #c9c0ac;
+  --toc-highlight: #9fb284;
+  --tag-bg: #4a4030;
+  --footer-text-color: #a89b7f;
+
+  /* Home dashboard (dev-*) → 다크 우드 */
+  --dev-accent: #9fb284;
+  --dev-accent-strong: #b7c69a;
+  --dev-green: #9fb284;
+  --dev-panel: #332b20;
+  --dev-inner-bg: #241d15;
+  --dev-line: #4a4030;
+  --dev-text-soft: #a89b7f;
+  --dev-accent-soft: rgba(159, 178, 132, 0.14);
+  --dev-accent-soft-strong: rgba(159, 178, 132, 0.26);
+  --dev-hover-text: #f3efe4;
+  --dev-ghchart-bg: #f3efe4;
+  --dev-panel-shadow: rgba(0, 0, 0, 0.28) 0 3px 10px 0;
+}
+
+/* ---------- 디테일 오버라이드 ---------- */
+
+/* 사이드바: 프로필에 세이지 링 */
+#sidebar {
+  #avatar {
+    border: 2px solid #6b7a5e;
+    padding: 3px;
+    background: transparent;
+  }
+
+  .site-title a {
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .site-subtitle {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  ul li.nav-item.active .nav-link {
+    background: #4a4030;
+    border-radius: 6px;
+    color: #f3efe4;
+  }
+
+  ul li.nav-item .nav-link:hover {
+    background: rgba(74, 64, 48, 0.6);
+    border-radius: 6px;
+  }
+}
+
+/* 홈 카드: 종이 질감의 구분선 스타일 */
+#post-list {
+  .card {
+    border: 1px solid var(--card-border-color, #e9e3d2);
+    border-radius: 10px;
+
+    &:hover {
+      border-color: #c9cdae;
+    }
+
+    .card-title {
+      font-weight: 600;
+      line-height: 1.45;
+      color: var(--heading-color);
+    }
+
+    .card-text.content {
+      font-family: 'Pretendard', sans-serif;
+      color: var(--text-muted-color);
+    }
+  }
+}
+
+/* 카테고리/태그 칩: 세이지 그린 */
+.post-tag,
+.post-meta a.text-muted {
+  font-family: 'Pretendard', sans-serif;
+}
+
+a.post-tag,
+.post-tags .post-tag {
+  background: #dde0c9;
+  color: #4b5238 !important;
+  border: none;
+  border-radius: 100px;
+  padding: 0.25rem 0.75rem;
+
+  &:hover {
+    background: #c9cdae;
+  }
+}
+
+html[data-mode='dark'] a.post-tag,
+html[data-mode='dark'] .post-tags .post-tag {
+  background: #4a4030;
+  color: #c9cdae !important;
+
+  &:hover {
+    background: #55603f;
+  }
+}
+
+/* 본문 타이포 */
+.content {
+  font-size: 1.06rem;
+  line-height: 1.95;
+}
+
+/* 인용구: 세리프 이탤릭 */
+blockquote {
+  font-family: 'Source Serif 4', 'Noto Serif KR', serif;
+  font-style: italic;
+  border-left: 3px solid #6b7a5e;
+}
+
+/* 코드 블록: 다크 우드 + 세이지 */
+:not(pre) > code {
+  background: #ece7d8;
+  color: #55603f;
+  border-radius: 4px;
+}
+
+html[data-mode='dark'] :not(pre) > code {
+  background: #4a4030;
+  color: #c9cdae;
+}
+
+/* 목차(TOC) 활성 표시 */
+#toc-wrapper .toc-item.is-active-li > a,
+nav#toc a.active {
+  color: var(--toc-highlight);
+  font-weight: 600;
+}
+
+/* 버튼/체크박스 등 브랜드 컬러가 남는 곳 정리 */
+.btn-outline-primary {
+  --bs-btn-color: #5e6e50;
+  --bs-btn-border-color: #c9cdae;
+  --bs-btn-hover-bg: #dde0c9;
+  --bs-btn-hover-border-color: #c9cdae;
+  --bs-btn-hover-color: #4b5238;
+}
+
+/* ============================================================
+   홈 대시보드(dev-home) 리스킨 — 우드/세이지 CSS 변수 사용
+   ============================================================ */
 
 .dev-home-kicker {
   margin: 0 0 0.55rem;
   color: var(--dev-accent);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family: 'Pretendard', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.78rem;
+  letter-spacing: 0.04em;
   line-height: 1.3;
 }
 
@@ -30,8 +297,9 @@
   margin: 0.75rem 0 1rem;
   padding: 1.2rem;
   border: 1px solid var(--dev-line);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--dev-panel);
+  box-shadow: var(--dev-panel-shadow);
 }
 
 .dev-quote blockquote {
@@ -39,11 +307,13 @@
   padding: 0;
   border: 0;
   background: transparent;
+  font-style: normal;
 }
 
 .dev-quote blockquote p {
   margin: 0;
   color: var(--heading-color);
+  font-family: 'Noto Serif KR', 'Source Serif 4', serif;
   font-size: clamp(1.55rem, 3.6vw, 2.8rem);
   font-weight: 700;
   line-height: 1.22;
@@ -75,12 +345,14 @@
   border: 1px solid var(--dev-line);
   border-radius: 8px;
   color: var(--heading-color);
-  background: rgba(2, 6, 23, 0.22);
+  background: var(--dev-inner-bg);
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
 .dev-quote__links a:hover {
-  color: #fff;
-  border-color: rgba(56, 189, 248, 0.48);
+  color: var(--dev-accent-strong);
+  border-color: var(--dev-accent);
+  background: var(--dev-accent-soft);
   text-decoration: none;
 }
 
@@ -94,8 +366,9 @@
 .dev-home-metric,
 .dev-home-panel {
   border: 1px solid var(--dev-line);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--dev-panel);
+  box-shadow: var(--dev-panel-shadow);
 }
 
 .dev-home-metric {
@@ -105,6 +378,7 @@
 .dev-home-metric span {
   display: block;
   color: var(--heading-color);
+  font-family: 'Noto Serif KR', serif;
   font-size: 1.55rem;
   font-weight: 700;
   line-height: 1.1;
@@ -134,11 +408,7 @@
   min-height: 17rem;
 }
 
-.dev-home-activity-panel {
-  display: flex;
-  flex-direction: column;
-}
-
+.dev-home-activity-panel,
 .dev-home-category-panel {
   display: flex;
   flex-direction: column;
@@ -168,6 +438,12 @@
   border: 1px solid var(--dev-line);
   border-radius: 8px;
   color: var(--dev-accent);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.dev-home-panel__header a:hover {
+  color: var(--dev-accent-strong);
+  border-color: var(--dev-accent);
 }
 
 .dev-home-ghchart {
@@ -176,7 +452,7 @@
   min-height: 10.75rem;
   padding: 0.75rem;
   border-radius: 8px;
-  background: #f8fafc;
+  background: var(--dev-ghchart-bg);
   object-fit: contain;
 }
 
@@ -224,7 +500,7 @@
   border: 1px solid var(--dev-line);
   border-radius: 8px;
   color: var(--heading-color);
-  background: rgba(2, 6, 23, 0.22);
+  background: var(--dev-inner-bg);
   font-size: 0.98rem;
   font-weight: 600;
   line-height: 1.4;
@@ -234,9 +510,9 @@
 }
 
 .dev-home-category-link:hover {
-  color: #fff;
-  border-color: rgba(56, 189, 248, 0.5);
-  background: rgba(56, 189, 248, 0.12);
+  color: var(--dev-hover-text);
+  border-color: var(--dev-accent);
+  background: var(--dev-accent-soft);
   text-decoration: none;
 }
 
@@ -257,16 +533,16 @@
   padding: 0 0.4rem;
   border-radius: 999px;
   color: var(--dev-accent);
-  background: rgba(56, 189, 248, 0.12);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  background: var(--dev-accent-soft);
+  font-family: 'Pretendard', ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.74rem;
   font-weight: 600;
   line-height: 1;
 }
 
 .dev-home-category-link:hover .dev-home-category-count {
-  color: #fff;
-  background: rgba(56, 189, 248, 0.28);
+  color: var(--dev-accent-strong);
+  background: var(--dev-accent-soft-strong);
 }
 
 .dev-home-category-pager {
@@ -286,13 +562,13 @@
   border: 1px solid var(--dev-line);
   border-radius: 999px;
   color: var(--dev-accent);
-  background: rgba(15, 23, 42, 0.78);
-  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.04);
+  background: var(--dev-inner-bg);
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .dev-home-category-pager button:hover:not(:disabled) {
-  color: #fff;
-  border-color: rgba(56, 189, 248, 0.52);
+  color: var(--dev-accent-strong);
+  border-color: var(--dev-accent);
 }
 
 .dev-home-category-pager button:disabled {
@@ -310,9 +586,9 @@
   border: 1px solid var(--dev-line);
   border-radius: 999px;
   color: var(--dev-text-soft);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family: 'Pretendard', ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.76rem;
-  background: rgba(2, 6, 23, 0.18);
+  background: var(--dev-inner-bg);
 }
 
 .dev-home-docs {
@@ -344,21 +620,23 @@
   justify-content: space-between;
   min-height: 5.25rem;
   padding: 0.82rem;
-  border: 1px solid rgba(56, 189, 248, 0.24);
+  border: 1px solid var(--dev-line);
   border-radius: 8px;
   color: var(--text-color);
-  background: rgba(56, 189, 248, 0.08);
+  background: var(--dev-accent-soft);
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
 .dev-home-doc-card:hover {
-  color: #fff;
-  border-color: rgba(56, 189, 248, 0.52);
+  border-color: var(--dev-accent);
+  background: var(--dev-accent-soft-strong);
   text-decoration: none;
 }
 
 .dev-home-doc-card strong {
   display: block;
   color: var(--heading-color);
+  font-family: 'Noto Serif KR', serif;
   font-size: 0.98rem;
   line-height: 1.25;
   white-space: normal;
@@ -375,9 +653,8 @@
   overflow-wrap: anywhere;
 }
 
-.dev-home-doc-card:hover strong,
-.dev-home-doc-card:hover span {
-  color: #fff;
+.dev-home-doc-card:hover strong {
+  color: var(--dev-hover-text);
 }
 
 @media (max-width: 991px) {
