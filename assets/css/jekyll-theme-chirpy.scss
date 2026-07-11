@@ -9,7 +9,7 @@
 
 /* ============================================================
    다희 남편의 개발일지 — 우드톤 · 식물 · 힐링 커스텀 (시안 3a)
-   웹폰트는 _includes/metadata-hook.html 에서 로드합니다.
+   웹폰트는 _data/origin/cors.yml 의 webfonts 로 로드합니다.
    ============================================================ */
 
 /* ---------- 폰트 ---------- */
@@ -18,7 +18,7 @@ html {
 }
 
 body {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Noto Sans KR', 'Pretendard', -apple-system, 'Apple SD Gothic Neo', sans-serif;
 }
 
 h1, h2, h3, h4,
@@ -169,7 +169,7 @@ html[data-mode='dark'] {
   }
 
   .site-subtitle {
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
     font-size: 0.72rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -204,7 +204,7 @@ html[data-mode='dark'] {
     }
 
     .card-text.content {
-      font-family: 'Pretendard', sans-serif;
+      font-family: 'Noto Sans KR', sans-serif;
       color: var(--text-muted-color);
     }
   }
@@ -213,7 +213,7 @@ html[data-mode='dark'] {
 /* 카테고리/태그 칩: 세이지 그린 */
 .post-tag,
 .post-meta a.text-muted {
-  font-family: 'Pretendard', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 a.post-tag,
@@ -287,7 +287,7 @@ nav#toc a.active {
 .dev-home-kicker {
   margin: 0 0 0.55rem;
   color: var(--dev-accent);
-  font-family: 'Pretendard', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: 'Noto Sans KR', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.78rem;
   letter-spacing: 0.04em;
   line-height: 1.3;
@@ -534,7 +534,7 @@ nav#toc a.active {
   border-radius: 999px;
   color: var(--dev-accent);
   background: var(--dev-accent-soft);
-  font-family: 'Pretendard', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: 'Noto Sans KR', ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.74rem;
   font-weight: 600;
   line-height: 1;
@@ -586,7 +586,7 @@ nav#toc a.active {
   border: 1px solid var(--dev-line);
   border-radius: 999px;
   color: var(--dev-text-soft);
-  font-family: 'Pretendard', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: 'Noto Sans KR', ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.76rem;
   background: var(--dev-inner-bg);
 }
@@ -690,4 +690,173 @@ nav#toc a.active {
   .dev-home-doc-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ============================================================
+   HANDOFF 구조 변경 — 시안 3a 마크업 스타일
+   ============================================================ */
+
+/* [#2] 포스트 카드/상세: 제목 위 카테고리 칩 */
+.post-cat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  margin-bottom: 0.55rem;
+}
+
+.post-cat-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.62rem;
+  border-radius: 100px;
+  background: #dde0c9;
+  color: #4b5238 !important;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.74rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.post-cat-chip:hover {
+  background: #c9cdae;
+  color: #3b421f !important;
+  text-decoration: none;
+}
+
+.post-cat-date {
+  color: var(--text-muted-color);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.78rem;
+}
+
+html[data-mode='dark'] .post-cat-chip {
+  background: #4a4030;
+  color: #c9cdae !important;
+
+  &:hover {
+    background: #55603f;
+    color: #e6ead2 !important;
+  }
+}
+
+/* 홈 카드: 칩을 제목 위로 올렸으니 메타의 카테고리는 숨김(중복 방지) */
+#post-list .card .post-meta .home-hide-cat {
+  display: none;
+}
+
+/* [#1] Daily Quote 카드 — 종이 카드 승격 */
+.dev-quote {
+  background: #f0ede0;
+}
+
+html[data-mode='dark'] .dev-quote {
+  background: #332b20;
+}
+
+.dev-home-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  color: #8a8072;
+}
+
+html[data-mode='dark'] .dev-home-kicker {
+  color: var(--dev-accent);
+}
+
+.dev-quote blockquote footer {
+  font-family: 'Source Serif 4', 'Noto Serif KR', serif;
+  font-style: italic;
+  color: #6b7a5e;
+}
+
+/* [#3] 사이드바: 활성 메뉴 앞 세이지 점 */
+#sidebar ul li.nav-item.active .nav-link {
+  position: relative;
+  padding-left: 1.9rem;
+}
+
+#sidebar ul li.nav-item.active .nav-link::before {
+  content: '';
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #9fb284;
+}
+
+/* [#3] 사이드바 하단 숲 사진 */
+.sidebar-forest {
+  margin: 1rem 1.5rem 0.5rem;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(159, 178, 132, 0.25);
+}
+
+.sidebar-forest img {
+  display: block;
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
+
+/* [#5] 포스트 코드 블록: 라이트 모드에서도 다크 우드
+   → 다크 syntax 토큰(가독성)을 그대로 쓰고 배경만 우드톤으로 덮음 */
+html:not([data-mode]),
+html[data-mode='light'] {
+  @include dark-syntax;
+
+  /* base16 기본 배경(#151515) → 우드톤으로 */
+  --highlight-bg-color: #332b20;
+  --language-border-color: #4a4030;
+  --highlighter-rouge-color: #c9cdae;
+  --code-header-text-color: #a89b7f;
+  --filepath-text-color: #ded6c1;
+
+  .highlight,
+  .highlight .w {
+    background-color: #332b20;
+  }
+
+  .highlight .gp {
+    color: #9fb284;
+  }
+}
+
+/* 인라인 코드는 라이트 팔레트 유지 (다크 syntax 변수에 덮이지 않도록 재지정) */
+html:not([data-mode]) :not(pre) > code,
+html[data-mode='light'] :not(pre) > code {
+  background: #ece7d8 !important;
+  color: #55603f !important;
+}
+
+/* [#5] 이전/다음 글 내비게이션 */
+.post-navigation {
+  border-top: 1px solid var(--main-border-color, #e3dcc9);
+  padding-top: 1.25rem;
+}
+
+.post-navigation .btn {
+  color: #6b6255;
+  border-color: var(--main-border-color, #e3dcc9);
+  font-size: 0.82rem;
+}
+
+.post-navigation .btn:hover {
+  background: #dde0c9;
+  color: #4b5238;
+  border-color: #c9cdae;
+}
+
+html[data-mode='dark'] .post-navigation .btn:hover {
+  background: #4a4030;
+  color: #c9cdae;
+  border-color: #55603f;
 }
