@@ -1,7 +1,7 @@
 ---
 title: "Kafka 설계 패턴은 왜 벤치마크와 같이 봐야 할까"
 date: 2026-07-11 09:35:00 +0900
-categories: [technical-knowledge, data-engineering]
+categories: [data-engineering]
 tags: [apache-kafka, event-streaming, benchmarking, cdc, exactly-once]
 ---
 
@@ -13,23 +13,65 @@ Kafka는 단순 메시지 큐가 아니라 durable log를 중심으로 동작한
 
 아래는 CDC 이벤트를 Kafka로 흘려보낸 뒤 downstream에서 멱등 처리와 집계를 나누어 보는 단순한 구조다. 핵심은 Kafka topic 하나가 아니라, 각 단계가 어떤 정합성 책임을 갖는지 분리해서 보는 것이다.
 
-```mermaid
-flowchart LR
-  DB[(Operational DB)]
-  CDC[CDC Connector]
-  LOG[(Kafka Topic)]
-  IDEMP[Idempotent Consumer]
-  STATE[(State Store)]
-  SINK[(Analytics Table)]
-  METRICS[Benchmark Metrics]
+<figure class="post-diagram">
+  <svg viewBox="0 0 1040 360" role="img" aria-labelledby="kafka-flow-title kafka-flow-desc" xmlns="http://www.w3.org/2000/svg">
+    <title id="kafka-flow-title">Kafka CDC benchmark responsibility flow</title>
+    <desc id="kafka-flow-desc">Operational database changes flow through a CDC connector and Kafka topic into an idempotent consumer, state store, analytics table, and benchmark metrics.</desc>
+    <defs>
+      <marker id="kafka-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+        <path d="M2,2 L10,6 L2,10 Z" fill="#3f6473" />
+      </marker>
+      <style>
+        .kafka-box { fill: #f8f5ea; stroke: #3f6473; stroke-width: 2; rx: 14; }
+        .kafka-store { fill: #e7f0ee; stroke: #3f6473; stroke-width: 2; rx: 14; }
+        .kafka-metric { fill: #f2ead9; stroke: #8a6f3d; stroke-width: 2; rx: 14; }
+        .kafka-label { font: 700 17px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #263238; }
+        .kafka-small { font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #5a6670; }
+        .kafka-line { stroke: #3f6473; stroke-width: 3; fill: none; marker-end: url(#kafka-arrow); }
+        .kafka-dash { stroke: #8a6f3d; stroke-width: 3; fill: none; stroke-dasharray: 8 8; marker-end: url(#kafka-arrow); }
+      </style>
+    </defs>
 
-  DB --> CDC --> LOG --> IDEMP
-  IDEMP --> STATE
-  IDEMP --> SINK
-  LOG --> METRICS
-  STATE --> METRICS
-  SINK --> METRICS
-```
+    <rect x="30" y="80" width="140" height="82" class="kafka-store" />
+    <text x="100" y="114" text-anchor="middle" class="kafka-label">Operational DB</text>
+    <text x="100" y="138" text-anchor="middle" class="kafka-small">source of truth</text>
+
+    <rect x="220" y="80" width="140" height="82" class="kafka-box" />
+    <text x="290" y="114" text-anchor="middle" class="kafka-label">CDC Connector</text>
+    <text x="290" y="138" text-anchor="middle" class="kafka-small">snapshot + changes</text>
+
+    <rect x="410" y="80" width="140" height="82" class="kafka-store" />
+    <text x="480" y="114" text-anchor="middle" class="kafka-label">Kafka Topic</text>
+    <text x="480" y="138" text-anchor="middle" class="kafka-small">durable log</text>
+
+    <rect x="600" y="80" width="160" height="82" class="kafka-box" />
+    <text x="680" y="114" text-anchor="middle" class="kafka-label">Idempotent</text>
+    <text x="680" y="138" text-anchor="middle" class="kafka-small">consumer boundary</text>
+
+    <rect x="830" y="26" width="160" height="74" class="kafka-store" />
+    <text x="910" y="58" text-anchor="middle" class="kafka-label">State Store</text>
+    <text x="910" y="80" text-anchor="middle" class="kafka-small">dedupe / offsets</text>
+
+    <rect x="830" y="138" width="160" height="74" class="kafka-store" />
+    <text x="910" y="170" text-anchor="middle" class="kafka-label">Analytics Table</text>
+    <text x="910" y="192" text-anchor="middle" class="kafka-small">upsert result</text>
+
+    <rect x="410" y="260" width="220" height="70" class="kafka-metric" />
+    <text x="520" y="290" text-anchor="middle" class="kafka-label">Benchmark Metrics</text>
+    <text x="520" y="312" text-anchor="middle" class="kafka-small">lag / latency / recovery</text>
+
+    <path d="M170 121 H220" class="kafka-line" />
+    <path d="M360 121 H410" class="kafka-line" />
+    <path d="M550 121 H600" class="kafka-line" />
+    <path d="M760 110 C790 88 805 72 830 64" class="kafka-line" />
+    <path d="M760 132 C790 148 805 164 830 174" class="kafka-line" />
+
+    <path d="M480 162 V260" class="kafka-dash" />
+    <path d="M910 100 C910 244 650 236 575 260" class="kafka-dash" />
+    <path d="M910 212 C910 292 700 292 630 295" class="kafka-dash" />
+  </svg>
+  <figcaption>Kafka 패턴은 topic 하나가 아니라 각 단계의 정합성 책임과 운영 지표를 함께 봐야 한다.</figcaption>
+</figure>
 
 코드 예시도 실제 운영 코드를 복사하기보다 개념을 작게 드러내는 편이 안전하다. 예를 들어 CDC 이벤트를 처리할 때는 event id 또는 source offset을 기준으로 이미 처리한 이벤트인지 먼저 확인하고, 처리 결과와 offset commit의 경계를 명확히 둔다.
 
