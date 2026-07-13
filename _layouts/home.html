@@ -7,9 +7,6 @@ refactor: true
 
 {% assign visible_posts = site.posts | where_exp: 'item', 'item.hidden != true' %}
 {% assign latest_posts = visible_posts | sort: 'date' | reverse | slice: 0, 3 %}
-{% assign total_posts = visible_posts | size %}
-{% assign categories_count = site.categories | size %}
-{% assign tags_count = site.tags | size %}
 
 <section class="dev-quote" aria-label="Daily developer quote">
   <p class="dev-home-kicker">Daily Developer Quote</p>
@@ -25,123 +22,6 @@ refactor: true
     <a href="https://github.com/{{ site.github.username }}" target="_blank" rel="noopener noreferrer">
       <i class="fab fa-github" aria-hidden="true"></i>
       <span>GitHub</span>
-    </a>
-  </div>
-</section>
-
-<section class="dev-home-metrics" aria-label="Blog metrics">
-  <div class="dev-home-metric">
-    <span>{{ total_posts }}</span>
-    <p>published notes</p>
-  </div>
-  <div class="dev-home-metric">
-    <span>{{ categories_count }}</span>
-    <p>categories</p>
-  </div>
-  <div class="dev-home-metric">
-    <span>{{ tags_count }}</span>
-    <p>tags</p>
-  </div>
-</section>
-
-<section class="dev-home-grid" aria-label="Developer dashboard">
-  <div class="dev-home-panel dev-home-panel--wide dev-home-activity-panel">
-    <div class="dev-home-panel__header">
-      <div>
-        <p class="dev-home-kicker">GitHub Activity</p>
-        <h2>꾸준함을 남기는 잔디</h2>
-      </div>
-      <a href="https://github.com/{{ site.github.username }}" target="_blank" rel="noopener noreferrer" aria-label="Open GitHub profile">
-        <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-      </a>
-    </div>
-    <img
-      class="dev-home-ghchart"
-      src="https://ghchart.rshah.org/9FB284/{{ site.github.username }}"
-      alt="{{ site.github.username }} GitHub contribution chart"
-      loading="lazy"
-    >
-  </div>
-
-  <div class="dev-home-panel dev-home-category-panel">
-    <div class="dev-home-panel__header">
-      <div>
-        <p class="dev-home-kicker">Categories</p>
-        <h2>글 묶음</h2>
-      </div>
-      <a href="{{ '/categories/' | relative_url }}" aria-label="Open all categories">
-        <i class="fas fa-folder-open" aria-hidden="true"></i>
-      </a>
-    </div>
-    <div class="dev-home-category-list" aria-label="Post categories" data-category-page-size="3">
-      {% assign home_categories = site.categories | sort %}
-      {% for category in home_categories %}
-        {% assign category_name = category | first %}
-        {% assign category_posts = category | last %}
-        {% capture category_url %}/categories/{{ category_name | slugify | url_encode }}/{% endcapture %}
-        {% assign category_page_index = forloop.index0 | divided_by: 3 %}
-        <a class="dev-home-category-link" href="{{ category_url | relative_url }}" data-category-count="{{ category_posts | size }}" data-category-page="{{ category_page_index }}">
-          <span class="dev-home-category-name">{{ category_name }}</span>
-          <span class="dev-home-category-count">{{ category_posts | size }}</span>
-        </a>
-      {% endfor %}
-    </div>
-    <div class="dev-home-category-pager" aria-label="Category pages">
-      <button type="button" data-category-prev aria-label="Previous categories">
-        <i class="fas fa-chevron-left" aria-hidden="true"></i>
-      </button>
-      <span data-category-status>1 / 1</span>
-      <button type="button" data-category-next aria-label="Next categories">
-        <i class="fas fa-chevron-right" aria-hidden="true"></i>
-      </button>
-    </div>
-  </div>
-</section>
-
-<section class="dev-home-panel dev-home-docs" aria-label="Technology documentation links">
-  <div class="dev-home-panel__header">
-    <div>
-      <p class="dev-home-kicker">Docs Links</p>
-      <h2>자주 보는 기술 문서</h2>
-    </div>
-    <i class="fas fa-book-open" aria-hidden="true"></i>
-  </div>
-  <div class="dev-home-doc-grid">
-    <a class="dev-home-doc-card" href="https://kafka.apache.org/documentation/" target="_blank" rel="noopener noreferrer">
-      <strong>Kafka</strong>
-      <span>event streaming</span>
-    </a>
-    <a class="dev-home-doc-card" href="https://nightlies.apache.org/flink/flink-docs-release-2.1/" target="_blank" rel="noopener noreferrer">
-      <strong>Flink</strong>
-      <span>stateful streaming</span>
-    </a>
-    <a class="dev-home-doc-card" href="https://iceberg.apache.org/docs/latest/" target="_blank" rel="noopener noreferrer">
-      <strong>Iceberg</strong>
-      <span>lakehouse table</span>
-    </a>
-    <a class="dev-home-doc-card" href="https://docs.spring.io/spring-boot/index.html" target="_blank" rel="noopener noreferrer">
-      <strong>Spring Boot</strong>
-      <span>backend runtime</span>
-    </a>
-    <a class="dev-home-doc-card" href="https://kubernetes.io/docs/" target="_blank" rel="noopener noreferrer">
-      <strong>Kubernetes</strong>
-      <span>container platform</span>
-    </a>
-    <a class="dev-home-doc-card" href="https://argo-cd.readthedocs.io/en/stable/" target="_blank" rel="noopener noreferrer">
-      <strong>ArgoCD</strong>
-      <span>GitOps delivery</span>
-    </a>
-    <a class="dev-home-doc-card" href="https://airflow.apache.org/docs/" target="_blank" rel="noopener noreferrer">
-      <strong>Airflow</strong>
-      <span>workflow scheduler</span>
-    </a>
-    <a class="dev-home-doc-card" href="https://docs.python.org/3/" target="_blank" rel="noopener noreferrer">
-      <strong>Python</strong>
-      <span>data tooling</span>
-    </a>
-    <a class="dev-home-doc-card" href="https://kotlinlang.org/docs/home.html" target="_blank" rel="noopener noreferrer">
-      <strong>Kotlin</strong>
-      <span>JVM language</span>
     </a>
   </div>
 </section>
@@ -171,57 +51,6 @@ refactor: true
       quoteNode.textContent = quote.text;
       authorNode.textContent = quote.author;
     }
-  })();
-
-  (() => {
-    const list = document.querySelector('[data-category-page-size]');
-    if (!list) return;
-
-    const pageSize = Number(list.dataset.categoryPageSize) || 3;
-    const items = Array.from(list.querySelectorAll('[data-category-page]'))
-      .sort((a, b) => Number(b.dataset.categoryCount) - Number(a.dataset.categoryCount));
-    const prevButton = document.querySelector('[data-category-prev]');
-    const nextButton = document.querySelector('[data-category-next]');
-    const statusNode = document.querySelector('[data-category-status]');
-
-    if (!items.length || !prevButton || !nextButton || !statusNode) return;
-
-    items.forEach((item, index) => {
-      item.dataset.categoryPage = String(Math.floor(index / pageSize));
-      list.appendChild(item);
-    });
-
-    const totalPages = Math.max(...items.map((item) => Number(item.dataset.categoryPage))) + 1;
-    let currentPage = 0;
-
-    const render = () => {
-      const visibleItems = [];
-
-      items.forEach((item) => {
-        const isVisible = Number(item.dataset.categoryPage) === currentPage;
-        item.hidden = !isVisible;
-        item.classList.toggle('is-last-visible', false);
-        if (isVisible) visibleItems.push(item);
-      });
-
-      visibleItems.at(-1)?.classList.add('is-last-visible');
-
-      prevButton.disabled = currentPage === 0;
-      nextButton.disabled = currentPage === totalPages - 1;
-      statusNode.textContent = `${String(currentPage + 1).padStart(2, '0')} / ${String(totalPages).padStart(2, '0')}`;
-    };
-
-    prevButton.addEventListener('click', () => {
-      currentPage = Math.max(0, currentPage - 1);
-      render();
-    });
-
-    nextButton.addEventListener('click', () => {
-      currentPage = Math.min(totalPages - 1, currentPage + 1);
-      render();
-    });
-
-    render();
   })();
 </script>
 

@@ -1,0 +1,67 @@
+<!-- 홈 우측 패널 위젯 (HANDOFF 2 — 3단 레이아웃) -->
+{% assign visible_posts = site.posts | where_exp: 'item', 'item.hidden != true' %}
+
+<section class="home-widget" aria-label="기록의 흔적">
+  <p class="panel-heading">기록의 흔적</p>
+  <div class="stats-row">
+    <div class="stat">
+      <div class="num">{{ visible_posts | size }}</div>
+      <div class="lbl">notes</div>
+    </div>
+    <div class="stat">
+      <div class="num">{{ site.categories | size }}</div>
+      <div class="lbl">categories</div>
+    </div>
+    <div class="stat">
+      <div class="num">{{ site.tags | size }}</div>
+      <div class="lbl">tags</div>
+    </div>
+  </div>
+</section>
+
+<section class="home-widget" aria-label="GitHub 잔디">
+  <p class="panel-heading">꾸준함을 남기는 잔디</p>
+  <a
+    class="grass-card"
+    href="https://github.com/{{ site.github.username }}"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="GitHub 프로필 열기"
+  >
+    <img
+      src="https://ghchart.rshah.org/9FB284/{{ site.github.username }}"
+      alt="{{ site.github.username }} GitHub 잔디"
+      loading="lazy"
+    >
+  </a>
+</section>
+
+<section class="home-widget" aria-label="글 묶음">
+  <p class="panel-heading">글 묶음</p>
+  <div class="chip-row">
+    {% assign home_categories = site.categories | sort %}
+    {% for category in home_categories %}
+      {% assign category_name = category | first %}
+      {% assign category_posts = category | last %}
+      {% capture category_url %}/categories/{{ category_name | slugify | url_encode }}/{% endcapture %}
+      <a class="chip" href="{{ category_url | relative_url }}">
+        {{ category_name }}<span class="chip-count">{{ category_posts | size }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="home-widget" aria-label="자주 보는 기술 문서">
+  <p class="panel-heading">자주 보는 기술 문서</p>
+  <div class="docs-list">
+    <a href="https://kafka.apache.org/documentation/" target="_blank" rel="noopener noreferrer"><b>Kafka</b> · event streaming</a>
+    <a href="https://nightlies.apache.org/flink/flink-docs-release-2.1/" target="_blank" rel="noopener noreferrer"><b>Flink</b> · stateful streaming</a>
+    <a href="https://iceberg.apache.org/docs/latest/" target="_blank" rel="noopener noreferrer"><b>Iceberg</b> · lakehouse table</a>
+    <a href="https://docs.spring.io/spring-boot/index.html" target="_blank" rel="noopener noreferrer"><b>Spring Boot</b> · backend runtime</a>
+    <a href="https://kubernetes.io/docs/" target="_blank" rel="noopener noreferrer"><b>Kubernetes</b> · container platform</a>
+    <a href="https://argo-cd.readthedocs.io/en/stable/" target="_blank" rel="noopener noreferrer"><b>ArgoCD</b> · GitOps delivery</a>
+    <a href="https://airflow.apache.org/docs/" target="_blank" rel="noopener noreferrer"><b>Airflow</b> · workflow scheduler</a>
+    <a href="https://docs.python.org/3/" target="_blank" rel="noopener noreferrer"><b>Python</b> · data tooling</a>
+    <a href="https://kotlinlang.org/docs/home.html" target="_blank" rel="noopener noreferrer"><b>Kotlin</b> · JVM language</a>
+  </div>
+</section>
