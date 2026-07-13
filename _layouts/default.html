@@ -23,8 +23,16 @@ layout: compress
       <div class="container d-flex flex-column px-xxl-5">
         {% include topbar.html lang=lang %}
 
+        {% if page.layout == 'home' %}
+          {% assign main_cols = 'col-12 col-lg-11 col-xl-8' %}
+          {% assign panel_cols = 'col-xl-4' %}
+        {% else %}
+          {% assign main_cols = 'col-12 col-lg-11 col-xl-9' %}
+          {% assign panel_cols = 'col-xl-3' %}
+        {% endif %}
+
         <div class="row flex-grow-1">
-          <main aria-label="Main Content" class="col-12 col-lg-11 col-xl-9 px-md-4">
+          <main aria-label="Main Content" class="{{ main_cols }} px-md-4">
             {% if layout.refactor or layout.layout == 'default' %}
               {% include refactor-content.html content=content lang=lang %}
             {% else %}
@@ -33,7 +41,7 @@ layout: compress
           </main>
 
           <!-- panel -->
-          <aside aria-label="Panel" id="panel-wrapper" class="col-xl-3 ps-2 mb-5 text-muted">
+          <aside aria-label="Panel" id="panel-wrapper" class="{{ panel_cols }} ps-2 mb-5 text-muted">
             {% if page.layout == 'home' %}
               <div class="access">
                 {% include home-widgets.html lang=lang %}
