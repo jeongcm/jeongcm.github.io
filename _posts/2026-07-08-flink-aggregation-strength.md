@@ -1,7 +1,7 @@
 ---
 title: "Apache Flink 집계가 강한 이유: 상태, 이벤트 시간, 체크포인트"
 date: 2026-07-08 16:21:00 +0900
-categories: [technical-knowledge, data-engineering]
+categories: [data-engineering]
 tags: [apache-flink, aggregation, event-time, stateful-streaming, checkpoint]
 ---
 
@@ -35,7 +35,7 @@ tags: [apache-flink, aggregation, event-time, stateful-streaming, checkpoint]
 
 내가 Flink 집계를 설계한다면 먼저 질문을 쪼갠다. 이 집계는 처리 시간 기준이어도 되는가, 이벤트 시간 기준이어야 하는가. 늦은 데이터는 몇 분까지 받아야 하는가. window가 닫힌 뒤 수정 결과를 내보내도 downstream이 감당할 수 있는가. 상태 크기는 얼마나 커질 수 있고, checkpoint SLA는 얼마인가. key skew가 생길 가능성은 없는가. 이 질문에 답할 수 있으면 Flink 집계는 꽤 탄탄한 무기가 된다.
 
-Flink의 장점은 집계를 "주기적으로 다시 계산하는 작업"이 아니라 "계속 살아 있는 상태ful computation"으로 다룬다는 데 있다. 그래서 이벤트가 들어오는 즉시 상태가 갱신되고, 장애가 나도 그 상태를 복원하며, 늦은 이벤트도 시간 의미에 맞게 처리할 수 있다. 실시간 집계에서 이 차이는 생각보다 크다.
+Flink의 장점은 집계를 "주기적으로 다시 계산하는 작업"이 아니라 "계속 살아 있는 stateful computation"으로 다룬다는 데 있다. 그래서 이벤트가 들어오는 즉시 상태가 갱신되고, 장애가 나도 그 상태를 복원하며, 늦은 이벤트도 시간 의미에 맞게 처리할 수 있다. 실시간 집계에서 이 차이는 생각보다 크다.
 
 내가 이 작업에서 배운 것은 Flink 집계가 꼭 `window().aggregate()`처럼 보이지 않아도 된다는 점이다. 중복 제거도 집계의 한 형태이고, delete와 upsert 중 최신 이벤트를 고르는 것도 상태 기반 집계이며, 주문 아이템들의 결제 금액을 다시 계산하는 것도 작은 materialized view다. Flink의 강점은 이런 비즈니스 상태를 이벤트가 들어올 때마다 계속 갱신하고, 그 결과를 Iceberg나 Kafka 같은 downstream에 안정적으로 흘려보내는 데 있다.
 
