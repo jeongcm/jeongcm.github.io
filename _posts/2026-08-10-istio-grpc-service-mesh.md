@@ -97,6 +97,87 @@ spec:
     timeout: 3s
 ```
 
+운영 계약은 각 층의 숫자가 서로 충돌하지 않게 맞추는 방식으로 잡는다. 예를 들어 unary gRPC API의 목표 응답 시간을 2초 내외로 보고, 클라이언트 deadline을 2.5초로 둔다면 mesh timeout은 3초처럼 약간 더 길게 둔다. ALB idle timeout은 이보다 충분히 커야 하지만, streaming RPC와 unary RPC를 같은 기준으로 묶으면 안 된다. 오래 유지되는 stream은 별도 host나 route로 분리하고, unary API에는 더 짧은 deadline과 retry 정책을 적용하는 편이 안전하다.
+
+```yaml
+# 개념 예시: ALB가 Istio ingressgateway를 gRPC target으로 보는 Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grpc-edge
+  namespace: istio-system
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/backend-protocol: HTTPS
+    alb.ingress.kubernetes.io/backend-protocol-version: GRPC
+    alb.ingress.kubernetes.io/healthcheck-path: /grpc.health.v1.Health/Check
+    alb.ingress.kubernetes.io/success-codes: "0"
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "10"
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: "2"
+spec:
+  rules:
+  - host: api.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: istio-ingressgateway
+            port:
+              number: 443
+```
+
+gateway capacity는 ALB보다 안쪽에서 터지는 병목을 막는 기준이다. gateway pod가 부족하면 ALB health check는 통과하더라도 Envoy의 pending request, downstream connection, CPU 사용률이 먼저 올라간다. 따라서 gateway는 최소 replica, HPA, PDB, resource request를 운영 기준으로 둔다.
+
+```yaml
+# 개념 예시: ingress gateway 용량 계약
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: istio-ingressgateway
+  namespace: istio-system
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: istio-ingressgateway
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 60
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: istio-ingressgateway
+  namespace: istio-system
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
+```
+
+마지막으로 애플리케이션도 같은 숫자를 이해해야 한다. gRPC client가 deadline을 두지 않으면 mesh timeout이나 ALB idle timeout에 의존하게 되고, 장애 시 호출자가 너무 오래 대기한다. 반대로 client deadline이 mesh timeout보다 길면, 프록시가 먼저 끊은 요청을 애플리케이션은 아직 유효하다고 생각할 수 있다.
+
+```kotlin
+// 개념 예시: unary gRPC 호출의 애플리케이션 deadline
+val response = orderServiceStub
+    .withDeadlineAfter(2500, TimeUnit.MILLISECONDS)
+    .getOrder(request)
+```
+
+이 예시의 의도는 특정 숫자를 정답으로 제시하는 것이 아니다. ALB는 10초 간격과 2회 실패로 target을 빼고, gateway는 최소 3개 replica로 edge 용량을 유지하며, DestinationRule은 service별 HTTP/2 request와 이상 endpoint 제거 기준을 제한하고, 애플리케이션은 2.5초 deadline으로 호출 대기 시간을 닫는다. 이 네 값이 함께 맞아야 부하 상황에서 "어디서 버티고, 어디서 빠르게 실패하고, 어디서 재시도할지"가 예측 가능해진다.
+
 주의할 점은 gRPC의 long-lived stream이다. unary RPC는 HTTP 요청처럼 timeout, retry, circuit breaker를 비교적 단순하게 적용할 수 있다. 반면 server streaming이나 bidirectional streaming은 하나의 HTTP/2 stream이 오래 유지되므로 `maxRequestsPerConnection`, idle timeout, keepalive, retry 정책이 실제 연결 수명과 충돌할 수 있다. 장애 처리도 HTTP status만 보지 말고 gRPC status code, deadline exceeded, unavailable 같은 의미를 함께 봐야 한다.
 
 정리하면 ALB와 Istio의 역할을 섞어 이해하지 않는 것이 중요하다. ALB는 외부 gRPC 트래픽을 mesh edge까지 안정적으로 가져오는 L7 load balancer다. Istio는 ingress gateway와 sidecar Envoy를 통해 HTTP/2/gRPC 요청을 service 단위로 라우팅하고, endpoint 선택, 회로 차단, 이상 endpoint 제거, timeout/retry를 정책으로 적용한다. 부하 제어의 핵심은 한 곳에서 모든 문제를 해결하려는 것이 아니라, ALB target health, gateway capacity, DestinationRule의 per-service 한도, 애플리케이션의 gRPC deadline을 같은 운영 계약으로 맞추는 데 있다.
@@ -105,6 +186,7 @@ spec:
 
 - [AWS ELB Documentation - Target groups for Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html)
 - [AWS Announcement - Application Load Balancers enables gRPC workloads](https://aws.amazon.com/about-aws/whats-new/2020/10/application-load-balancers-enable-grpc-workloads-end-to-end-http-2-support/)
+- [AWS Load Balancer Controller - Ingress annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/annotations/)
 - [Istio Ingress Gateways](https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-control/)
 - [Istio Protocol Selection](https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection/)
 - [Istio Traffic Management](https://istio.io/latest/docs/concepts/traffic-management/)
