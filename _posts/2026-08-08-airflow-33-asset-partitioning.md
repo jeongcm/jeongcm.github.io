@@ -1,7 +1,7 @@
 ---
 title: "Airflow 3.3 Asset Partitioning을 파티션 단위 오케스트레이션으로 보기"
 date: 2026-08-08 16:43:00 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [apache-airflow, asset-partitioning, orchestration, data-platform, scheduling]
 ---
 

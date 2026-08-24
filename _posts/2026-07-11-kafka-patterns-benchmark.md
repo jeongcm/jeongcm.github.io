@@ -1,7 +1,7 @@
 ---
 title: "Kafka 설계 패턴은 왜 벤치마크와 같이 봐야 할까"
 date: 2026-07-11 09:35:00 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [apache-kafka, event-streaming, benchmarking, cdc, exactly-once]
 ---
 

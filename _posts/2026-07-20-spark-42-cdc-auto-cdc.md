@@ -1,7 +1,7 @@
 ---
 title: "Spark 4.2의 CDC와 Auto CDC를 어떻게 볼 것인가"
 date: 2026-07-20 14:28:08 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [spark, cdc, lakehouse, declarative-pipelines, streaming]
 ---
 

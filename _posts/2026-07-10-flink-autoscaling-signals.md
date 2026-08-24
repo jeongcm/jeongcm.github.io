@@ -1,7 +1,7 @@
 ---
 title: "Flink 자동 스케일링은 CPU 사용률만 보면 왜 부족할까"
 date: 2026-07-10 09:10:00 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [apache-flink, autoscaling, streaming, kubernetes, backpressure]
 ---
 

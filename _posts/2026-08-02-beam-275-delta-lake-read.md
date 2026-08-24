@@ -1,7 +1,7 @@
 ---
 title: "Apache Beam 2.75의 Delta Lake 읽기 지원을 데이터 파이프라인 경계로 보기"
 date: 2026-08-02 11:19:00 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [Apache Beam, Delta Lake, lakehouse, pipeline, data-engineering]
 ---
 

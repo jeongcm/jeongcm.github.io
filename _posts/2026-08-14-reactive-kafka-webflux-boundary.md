@@ -105,7 +105,7 @@ Reactor Kafka를 쓰기 좋은 경우는 WebFlux 서비스가 이미 Reactor 타
 
 운영 기준은 세 가지로 정리할 수 있다. 첫째, WebFlux의 backpressure와 Kafka의 fetch/commit은 같은 개념이 아니므로 둘을 혼동하지 않는다. 둘째, send 성공은 broker append와 producer 설정 기준의 성공이지 비즈니스 처리가 끝났다는 뜻이 아니다. 셋째, consumer offset은 side effect 완료 후 acknowledge하되, 그 결과 중복 가능성을 멱등성 키와 재처리 정책으로 흡수한다. Reactive와 Kafka를 함께 쓰는 핵심은 "전부 비동기로 만든다"가 아니라 요청, 메시지, offset, 부작용의 경계를 코드에 명확히 드러내는 것이다.
 
-정리하면 Kafka는 지속적인 이벤트 흐름, partition 기반 순서, offset 기반 재처리라는 모델을 가진다. Reactive programming은 비동기 데이터 흐름, demand, signal, composition이라는 모델을 가진다. 두 모델은 모두 "흐름을 어떻게 제어할 것인가"를 중심에 둔다는 점에서 잘 맞는다. 다만 잘 맞는다는 말은 보장까지 자동으로 맞춰진다는 뜻이 아니다. WebFlux와 Reactor Kafka를 선택할 때는 non-blocking end-to-end 흐름, 명시적인 병렬성, 관측성 통합을 얻는 대신, offset commit, 중복 처리, lifecycle, partition 순서를 더 엄격하게 설계해야 한다.
+정리하면 Reactive와 Kafka가 잘 어울리는 이유는 둘 다 non-blocking I/O를 활용하기 때문만은 아니다. Kafka는 지속적인 이벤트 스트림과 offset 기반 재처리 모델을 갖고, Reactive programming은 비동기 데이터 흐름과 backpressure, error signal, composition을 다루는 모델이다. 따라서 Kafka 메시지를 받아 외부 I/O와 조합하고, 처리 완료 후 offset을 확정하는 서비스에서는 reactive pipeline이 처리 순서, 병렬성, timeout, retry, acknowledge 경계를 코드에 드러내기 좋다.
 
 ## 참고 링크
 

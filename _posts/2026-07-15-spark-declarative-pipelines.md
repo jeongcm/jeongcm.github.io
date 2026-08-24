@@ -1,7 +1,7 @@
 ---
 title: "Spark Declarative Pipelines는 데이터 파이프라인 설계를 어떻게 바꾸나"
 date: 2026-07-15 09:03:50 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [apache-spark, data-pipeline, structured-streaming, spark-41, orchestration]
 ---
 

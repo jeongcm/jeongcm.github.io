@@ -1,7 +1,7 @@
 ---
 title: "Snowflake와 Apache Iceberg는 무엇이 다를까: 웨어하우스와 오픈 테이블 포맷 비교"
 date: 2026-08-24 11:08:21 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [snowflake, apache-iceberg, lakehouse, data-warehouse, table-format]
 ---
 

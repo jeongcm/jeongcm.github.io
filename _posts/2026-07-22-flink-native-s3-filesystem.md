@@ -1,7 +1,7 @@
 ---
 title: "Flink Native S3 FileSystem이 바꾸는 체크포인트 운영 기준"
 date: 2026-07-22 22:41:55 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [apache-flink, s3, checkpoint, state-backend, data-platform]
 ---
 

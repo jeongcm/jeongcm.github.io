@@ -1,7 +1,7 @@
 ---
 title: "Airflow 3.3의 Stateful Task가 바꾸는 오케스트레이션 설계 기준"
 date: 2026-07-12 18:15:00 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [apache-airflow, orchestration, data-platform, stateful-task, task-sdk]
 ---
 

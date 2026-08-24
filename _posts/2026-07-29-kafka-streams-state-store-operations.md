@@ -1,7 +1,7 @@
 ---
 title: "Kafka Streams 4.3의 StateStore 변경을 운영 관점에서 보기"
 date: 2026-07-29 14:45:00 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [Kafka, Kafka Streams, StateStore, RocksDB, stream-processing]
 ---
 

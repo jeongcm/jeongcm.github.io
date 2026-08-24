@@ -1,7 +1,7 @@
 ---
 title: "데이터 거버넌스는 무엇이고 어떻게 활용해야 할까"
 date: 2026-07-15 14:43:36 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [data-governance, data-catalog, data-lineage, data-quality, data-platform]
 ---
 

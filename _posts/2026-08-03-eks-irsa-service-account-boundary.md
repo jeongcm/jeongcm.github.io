@@ -1,7 +1,7 @@
 ---
 title: "EKS IRSA를 ServiceAccount 단위 권한 경계로 이해하기"
 date: 2026-08-03 09:12:00 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [EKS, IRSA, Kubernetes, IAM, data-platform]
 ---
 

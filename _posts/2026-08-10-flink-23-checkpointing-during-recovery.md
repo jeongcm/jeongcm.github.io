@@ -1,7 +1,7 @@
 ---
 title: "Flink 2.3의 Checkpointing During Recovery를 운영 관점에서 보기"
 date: 2026-08-10 09:13:00 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [apache-flink, checkpoint, recovery, unaligned-checkpoint, streaming]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Apache Flink 집계가 강한 이유: 상태, 이벤트 시간, 체크포인트"
 date: 2026-07-08 16:21:00 +0900
-categories: [data-engineering]
+categories: [technical-knowledge, data-engineering]
 tags: [apache-flink, aggregation, event-time, stateful-streaming, checkpoint]
 ---
 
