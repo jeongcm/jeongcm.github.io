@@ -17,30 +17,31 @@ subscribeOn은 구독 시점에 전체 체인의 시작 스레드를 바꾼다. 
 
 반응형 API에서 스레드 전환은 '어디에' 놓느냐가 동작을 결정한다. 체인 위치와 신호 방향을 함께 고려해야 같은 코드도 다른 실행 트레이스를 만든다.
 
-![Reactor 구독 체인 도식](data:image/svg+xml;utf8,
-<svg xmlns="http://www.w3.org/2000/svg" width="760" height="200" viewBox="0 0 760 200">
-<rect x="20" y="40" width="110" height="60" rx="8" fill="#eef7ff" stroke="#3b82f6" stroke-width="2"/>
-<text x="75" y="62" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#1e40af">Source: Range(3)</text>
-<rect x="150" y="40" width="130" height="60" rx="8" fill="#e6f7e6" stroke="#10b981" stroke-width="2"/>
-<text x="215" y="62" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#065f46">subscribeOn(schedulerA)</text>
-<rect x="300" y="40" width="120" height="60" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
-<text x="360" y="62" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#92400e">publishOn(schedulerB)</text>
-<rect x="440" y="40" width="110" height="60" rx="8" fill="#eef7ff" stroke="#3b82f6" stroke-width="2"/>
-<text x="495" y="62" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#1e40af">Operator 1</text>
-<rect x="570" y="40" width="120" height="60" rx="8" fill="#e6f7e6" stroke="#10b981" stroke-width="2"/>
-<text x="630" y="62" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#065f46">publishOn(schedulerC)</text>
-<rect x="710" y="40" width="30" height="60" rx="8" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
-<text x="725" y="62" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#374151">Subscriber</text>
-<line x1="130" y1="70" x2="150" y2="70" stroke="#9ca3af" stroke-width="2" marker-end="url(#arrow)"/>
-<line x1="280" y1="70" x2="300" y2="70" stroke="#9ca3af" stroke-width="2" marker-end="url(#arrow)"/>
-<line x1="420" y1="70" x2="440" y2="70" stroke="#9ca3af" stroke-width="2" marker-end="url(#arrow)"/>
-<line x1="550" y1="70" x2="570" y2="70" stroke="#9ca3af" stroke-width="2" marker-end="url(#arrow)"/>
-<marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6"/></marker>
-<text x="380" y="185" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#6b7280">subscribeOn: 구독/요청 신호 방향에 영향 없음</text>
-<text x="380" y="198" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#6b7280">publishOn: onNext 하위 신호 방향에 실행 스레드 전환</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="200" viewBox="0 0 760 200" role="img" aria-labelledby="reactor-title reactor-desc">
+  <title id="reactor-title">Reactor 구독 체인: publishOn / subscribeOn</title>
+  <desc id="reactor-desc">publishOn은 하위(onNext) 신호 방향으로 실행 스레드를 전환하고, subscribeOn은 구독/요청 신호 지점에만 작용한다.</desc>
+  <rect x="20" y="40" width="110" height="60" rx="8" fill="#eef7ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="75" y="62" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#1e40af">Source: Range(3)</text>
+  <rect x="150" y="40" width="130" height="60" rx="8" fill="#e6f7e6" stroke="#10b981" stroke-width="2"/>
+  <text x="215" y="62" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#065f46">subscribeOn(schedulerA)</text>
+  <rect x="300" y="40" width="120" height="60" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="360" y="62" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#92400e">publishOn(schedulerB)</text>
+  <rect x="440" y="40" width="110" height="60" rx="8" fill="#eef7ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="495" y="62" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#1e40af">Operator 1</text>
+  <rect x="570" y="40" width="120" height="60" rx="8" fill="#e6f7e6" stroke="#10b981" stroke-width="2"/>
+  <text x="630" y="62" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#065f46">publishOn(schedulerC)</text>
+  <rect x="710" y="40" width="30" height="60" rx="8" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
+  <text x="725" y="62" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#374151">Subscriber</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6"/></marker>
+  </defs>
+  <line x1="130" y1="70" x2="150" y2="70" stroke="#9ca3af" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="280" y1="70" x2="300" y2="70" stroke="#9ca3af" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="420" y1="70" x2="440" y2="70" stroke="#9ca3af" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="550" y1="70" x2="570" y2="70" stroke="#9ca3af" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="380" y="185" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#6b7280">subscribeOn: 구독/요청 신호 방향에 영향 없음</text>
+  <text x="380" y="198" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#6b7280">publishOn: onNext 하위 신호 방향에 실행 스레드 전환</text>
 </svg>
-)
-
 실행 컨텍스트 전환의 핵심을 정리하면 다음과 같다.
 - `publishOn`: 체인 중간에서 실행 스레드를 바꾸며, 뒤(하위 신호 방향)의 연산자에만 영향을 준다. `onNext`는 순차 처리된다.
 - `subscribeOn`: 구독 시점에 전체 체인의 시작 스레드를 바꾸며, 소스 직후 배치가 일반적이다. 여러 개 배치하면 가장 가까운 것만 유효하다.
