@@ -1,5 +1,5 @@
 ---
-title: "이직 에이전트를 하네스로 설계하기 (5) — 블로그 자동화를 EC2의 야꾸로 옮기기"
+title: "이직 에이전트를 하네스로 설계하기 (5) — 블로그 자동화 Hermes Agent 로"
 date: 2026-10-28 12:30:00 +09:00
 categories: [building-the-agent]
 tags: [ai-agent, harness, hermes, ec2, slack, github-pages, workflow]
