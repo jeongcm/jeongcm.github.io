@@ -25,60 +25,51 @@ tags: [ai-agent, harness, hermes, job-search, workflow]
 
 이전 하네스는 기준을 프롬프트로 들고 다녔고, 허브 모델에서는 기준을 파일로 고정한다.
 
-![이전 하네스 → 허브 모델](data:image/svg+xml;utf8,
-<svg xmlns="http://www.w3.org/2000/svg" width="980" height="260" viewBox="0 0 980 260">
-  <defs>
-    <marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#46637f"/></marker>
-    <marker id="b" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#10b981"/></marker>
-    <marker id="c" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker>
-    <marker id="d" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8a6f3d"/></marker>
-    <style>
-      .box{fill:#f8f5ea;stroke:#46637f;stroke-width:2;rx:10}
-      .box2{fill:#eef7ff;stroke:#3b82f6;stroke-width:2;rx:10}
-      .box3{fill:#e6f7e6;stroke:#10b981;stroke-width:2;rx:10}
-      .box4{fill:#fef3c7;stroke:#f59e0b;stroke-width:2;rx:10}
-      .box5{fill:#f3f4f6;stroke:#6b7280;stroke-width:2;rx:10}
-      .box6{fill:#eef2ff;stroke:#6366f1;stroke-width:2;rx:10}
-      .t{fill:#263238;font:700 15px -apple-system,sans-serif}
-      .t2{fill:#5b6470;font:12px -apple-system,sans-serif}
-      .t3{fill:#1e40af;font:700 15px -apple-system,sans-serif}
-      .t4{fill:#1e40af;font:12px -apple-system,sans-serif}
-      .line{stroke:#9ca3af;stroke-width:2}
-      .loop{stroke:#8a6f3d;stroke-width:3;fill:none;stroke-dasharray:8 8}
-      .arrow{stroke:#9ca3af;stroke-width:2}
-    </style>
-  </defs>
-  <rect class="box" x="20" y="60" width="150" height="100"/>
-  <text class="t" x="95" y="96">사용자</text>
-  <text class="t2" x="95" y="116">지시 + 승인</text>
-
-  <rect class="box2" x="210" y="80" width="190" height="100"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="280" viewBox="0 0 980 280" role="img" aria-labelledby="hub-title hub-desc">
+  <title id="hub-title">이직 에이전트 하네스 설계: 기준 고정화</title>
+  <desc id="hub-desc">이전 하네스는 기준을 프롬프트로 들고 다녔고, 허브 모델에서는 기준을 파일로 고정한다.</desc>
+  <style>
+    rect { rx: 10; }
+    .user { fill: #f8f5ea; stroke: #46637f; stroke-width: 2; }
+    .hub  { fill: #eef7ff; stroke: #3b82f6; stroke-width: 2; }
+    .wkr  { fill: #e6f7e6; stroke: #10b981; stroke-width: 2; }
+    .ver  { fill: #fef3c7; stroke: #f59e0b; stroke-width: 2; }
+    .appr { fill: #f3f4f6; stroke: #6b7280; stroke-width: 2; }
+    .pub  { fill: #eef2ff; stroke: #6366f1; stroke-width: 2; }
+    .t { fill: #263238; font: 700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .t2 { fill: #5b6470; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .t3 { fill: #1e40af; font: 700 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .t4 { fill: #1e40af; font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .arrow { stroke: #9ca3af; stroke-width: 2; fill: none; }
+    .loop { stroke: #8a6f3d; stroke-width: 3; fill: none; stroke-dasharray: 8 8; }
+  </style>
+  <rect class="user" x="20" y="55" width="150" height="120"/>
+  <text class="t" x="95" y="90">사용자</text>
+  <text class="t2" x="95" y="112">지시 + 승인</text>
+  <rect class="hub" x="210" y="70" width="190" height="120"/>
   <text class="t3" x="305" y="110">허브 (hermes agent)</text>
-  <text class="t4" x="305" y="130">스킬 저장소 + 라우팅 + 세션</text>
-
-  <rect class="box3" x="450" y="60" width="150" height="100"/>
-  <text class="t" x="525" y="90">작업자 스킬</text>
-  <text class="t2" x="525" y="110">초안 생성</text>
-  <rect class="box4" x="450" y="130" width="150" height="100"/>
-  <text class="t" x="525" y="160">검증자 스킬</text>
-  <text class="t2" x="525" y="180">completion-criteria 확인</text>
-
-  <rect class="box5" x="650" y="90" width="160" height="80"/>
-  <text class="t" x="730" y="120">승인</text>
-  <text class="t2" x="730" y="142">사람 게이트</text>
-
-  <rect class="box6" x="850" y="90" width="100" height="80"/>
-  <text class="t" x="900" y="120">게시</text>
-  <text class="t2" x="900" y="142">_posts</text>
-
-  <path class="arrow" d="M170 110 H210"/>
-  <path class="arrow" d="M390 85 H450"/>
-  <path class="arrow" d="M390 165 H450"/>
-  <path class="arrow" d="M600 130 H650"/>
-  <path class="arrow" d="M810 130 H850"/>
-  <path class="loop" d="M525 230 C525 230 900 230 900 230"/>
+  <text class="t4" x="305" y="134">스킬 저장소 + 라우팅 + 세션</text>
+  <rect class="wkr" x="450" y="55" width="150" height="110"/>
+  <text class="t" x="525" y="95">작업자 스킬</text>
+  <text class="t2" x="525" y="117">초안 생성</text>
+  <rect class="ver" x="450" y="135" width="150" height="110"/>
+  <text class="t" x="525" y="175">검증자 스킬</text>
+  <text class="t2" x="525" y="197" font-size="11">completion-criteria 확인</text>
+  <rect class="appr" x="660" y="85" width="160" height="90"/>
+  <text class="t" x="740" y="125">승인</text>
+  <text class="t2" x="740" y="147">사람 게이트</text>
+  <rect class="pub" x="850" y="85" width="100" height="90"/>
+  <text class="t" x="900" y="125">게시</text>
+  <text class="t2" x="900" y="147">_posts</text>
+  <path class="arrow" d="M170 115 H210"/>
+  <path class="arrow" d="M400 105 H450"/>
+  <path class="arrow" d="M400 135 H450"/>
+  <path class="arrow" d="M600 110 H660"/>
+  <path class="arrow" d="M600 180 H660"/>
+  <path class="arrow" d="M820 130 H850"/>
+  <path class="loop" d="M900 175 V250 H160"/>
+  <text x="530" y="270" text-anchor="middle" class="t2">다음 실행 운영 기준으로 피드백</text>
 </svg>
-)
 
 ---
 
